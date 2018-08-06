@@ -1,9 +1,29 @@
-something
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Browser Game</title>
+	<script type="module" src="/client/js/client.js"></script>
+	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+</head>
 
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<body>
+	<canvas id="screen" width="500" height="500"></canvas>
+</body>
 
 <script>
+	var screen = document.getElementById("screen").getContext("2d");
+	screen.font = '30px Arial';
+
 	var socket = io();
 
-	socket.emit('happy');
+	socket.on('newPosition', (data) => {
+		screen.clearRect(0, 0, 500, 500);
+		
+
+		for (var i = 0; i < data.length; i++) {
+			ctx.fillText(data[i].number, data[i].x, data[i].y);
+		}
+	});
 </script>
+
+</html>

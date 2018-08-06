@@ -21,11 +21,33 @@ io.sockets.on('connection', function(socket) {
 	socket.x = 0;
 	socket.y = 0;
 	SOCKET_LIST[socket.id] = socket;
-	
+	socket.number = "" + Math.floor(10 * Math.random()); 
+
 	console.log('socket connection');
 
-	socket.on('happy', function() {
-		console.log('happy');
+	socket.on('disconnect', () => {
+		delete SOCKET_LIST[socket.id];
 	});
 
 });
+
+setInterval(() => {
+	var pack =[];
+
+	for (var i in SOCKET_LIST) {
+		var socket = SOCKET_LIST[i];
+		socket.x++;
+		socket.y++;
+		pack.push({
+			x:socket.x,
+			y:socket.y,
+			number:socket.number
+		});
+	}
+
+	for (var i in SOCKET_LIST) {
+		var socket = SOCKET_LIST[i];
+		socket.emit('newPosition', pack);
+	}
+
+}, 1000/25);

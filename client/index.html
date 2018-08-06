@@ -11,11 +11,12 @@
 </body>
 
 <script>
-	var screen = document.getElementById("screen").getContext("2d");
-	screen.font = '30px Arial';
 
 	var socket = io();
 
+
+
+	/*
 	socket.on('newPosition', (data) => {
 		screen.clearRect(0, 0, 500, 500);
 		
@@ -24,6 +25,7 @@
 			screen.fillText(data[i].number, data[i].x, data[i].y);
 		}
 	});
+	*/
 
 	document.onkeydown = function(event) {
 		if (event.keyCode === 68)  // pressing D key

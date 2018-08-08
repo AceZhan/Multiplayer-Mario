@@ -14,7 +14,7 @@ function drawBackground(background, context, sprites) {
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-loadImage('/client/img/tileset.png')
+loadImage('/client/assets/tileset.png')
 .then(image => {
 	const sprites = new SpriteSheet(image, 16, 16);
 	sprites.define('ground', 0, 0);

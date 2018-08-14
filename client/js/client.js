@@ -11,7 +11,7 @@ Promise.all([
 	createPlayer(),
 ])
 .then(([sprites, player]) => {
-	const gravity = 30;
+	const gravity = 2000;
 	player.pos.set(64, 180);
 	player.vel.set(200, -600);
 
@@ -19,18 +19,22 @@ Promise.all([
 	let accumulatedTime = 0;
 	let lastTime = 0;
 
+	let backgroundBuffer = createBackgroundLayer(sprites);
+
 	function update(time) {
 		accumulatedTime += (time - lastTime) / 1000;
 
-		let backgroundBuffer = createBackgroundLayer(sprites);
+		while (accumulatedTime > deltaTime) {
+			context.drawImage(backgroundBuffer, 0, 0);
+			player.update(deltaTime);
+			player.draw(context);
+			player.vel.y += gravity * deltaTime;
 
-		context.drawImage(backgroundBuffer, 0, 0);
-		player.update(deltaTime);
-		player.draw(context);
-		player.vel.y += gravity;
+			accumulatedTime -= deltaTime;
+		}
 
 		// requestAnimationFrame(update);
-		setTimeout(update, 1000/60 , performance.now());
+		setTimeout(update, 1000/144 , performance.now());
 
 		lastTime = time;
 	}

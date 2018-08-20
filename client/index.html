@@ -10,44 +10,5 @@
 	<canvas id="screen" width="500" height="500"></canvas>
 </body>
 
-<script>
-
-	var socket = io();
-
-
-
-	/*
-	socket.on('newPosition', (data) => {
-		screen.clearRect(0, 0, 500, 500);
-		
-
-		for (var i = 0; i < data.length; i++) {
-			screen.fillText(data[i].number, data[i].x, data[i].y);
-		}
-	});
-	*/
-
-	document.onkeydown = function(event) {
-		if (event.keyCode === 68)  // pressing D key
-			socket.emit('keyPress', {inputID:'right', state:true});
-		else if (event.keyCode === 83)  // pressing S key
-			socket.emit('keyPress', {inputID:'down', state:true});
-		else if (event.keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left', state:true});
-		else if (event.keyCode === 87)  // pressing W key
-			socket.emit('keyPress', {inputID:'up', state:true});
-	}
-
-	document.onkeyup = function(event) {
-		if (event.keyCode === 68)  // pressing D key
-			socket.emit('keyPress', {inputID:'right', state:false});
-		else if (event.keyCode === 83)  // pressing S key
-			socket.emit('keyPress', {inputID:'down', state:false});
-		else if (event.keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left', state:false});
-		else if (event.keyCode === 87)  // pressing W key
-			socket.emit('keyPress', {inputID:'up', state:false});
-	}
-</script>
 
 </html>

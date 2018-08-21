@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
+var math = require( __dirname + '/server/math.js');
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/client/index.html');
@@ -11,19 +12,8 @@ app.use('/client',express.static(__dirname + '/client'));
 serv.listen(2000);
 console.log('Server Started');
 
-class Vector {
-	constructor(x, y) {
-		this.set(x, y);
-	}
-
-	set(x, y) {
-		this.x = x;
-		this.y = y;
-	}
-}
-
 function Player(id) {
-	this.pos = new Vector(0, 0);
+	this.pos = new math.Vector(0, 0);
 	this.id = id;
 	this.number = "" + Math.floor(10 * Math.random());
 	this.pressingRight = false;

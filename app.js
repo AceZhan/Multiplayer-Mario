@@ -12,6 +12,7 @@ app.use('/client',express.static(__dirname + '/client'));
 serv.listen(2000);
 console.log('Server Started');
 
+// function to create player
 function Player(id) {
 	this.pos = new math.Vector(0, 0);
 	this.id = id;
@@ -31,6 +32,26 @@ function Player(id) {
 			this.pos.y -= this.maxSpd;
 		if (this.pressingDown)
 			this.pos.y += this.maxSpd;
+	}
+}
+
+
+// Create Tiles
+var levelTiles = new math.Matrix();
+
+for (let x = 0; x < 25; ++x) {
+	for (let y = 0; y < 14; ++y) {
+		levelTiles.set(x, y, {
+			name:'sky'
+		});
+	}
+}
+
+for (let x = 0; x < 25; ++x) {
+	for (let y = 12; y < 14; ++y) {
+		levelTiles.set(x, y, {
+			name: 'ground',
+		});
 	}
 }
 

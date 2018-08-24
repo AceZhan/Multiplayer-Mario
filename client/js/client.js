@@ -48,31 +48,6 @@ Promise.all([
 		else if (keyCode === 87)  // pressing W key
 			socket.emit('keyPress', {inputID:'up', state:false});
 	});
-
-
-	
-	/*
-	document.onkeydown = function(event) {
-		if (event.keyCode === 68)  // pressing D key
-			
-		else if (event.keyCode === 83)  // pressing S key
-			socket.emit('keyPress', {inputID:'down', state:true});
-		else if (event.keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left', state:true});
-		else if (event.keyCode === 87)  // pressing W key
-			socket.emit('keyPress', {inputID:'up', state:true});
-	}
-
-	document.onkeyup = function(event) {
-		if (event.keyCode === 68)  // pressing D key
-			socket.emit('keyPress', {inputID:'right', state:false});
-		else if (event.keyCode === 83)  // pressing S key
-			socket.emit('keyPress', {inputID:'down', state:false});
-		else if (event.keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left', state:false});
-		else if (event.keyCode === 87)  // pressing W key
-			socket.emit('keyPress', {inputID:'up', state:false});
-	*/
 	
 });
 

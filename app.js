@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
 var math = require( __dirname + '/server/math.js');
+var tile = require( __dirname + '/server/TileCollider.js');
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/client/index.html');
@@ -21,7 +22,7 @@ function Player(id) {
 	this.pressingLeft = false;
 	this.pressingUp = false;
 	this.pressingDown = false;
-	this.maxSpd = 10;
+	this.maxSpd = 5;
 
 	this.update = function() {
 		if (this.pressingRight)
@@ -54,6 +55,12 @@ for (let x = 0; x < 25; ++x) {
 		});
 	}
 }
+
+levelTiles.set(0, 0, {
+			name: 'ground',
+		});
+
+var tileCollider = new tile.TileCollider(levelTiles);
 
 
 // List to store multiple players
@@ -96,6 +103,7 @@ setInterval(() => {
 	for (var i in PLAYER_LIST) {
 		var player = PLAYER_LIST[i];
 		player.update();
+		tileCollider.test(player);
 		pack.push({
 			x:player.pos.x,
 			y:player.pos.y,

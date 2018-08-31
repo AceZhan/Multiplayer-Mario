@@ -11,16 +11,13 @@ function drawBackground(sprites, context) {
 		}
 	}
 
-	sprites.drawTile('ground', context, 12, 6);
-	sprites.drawTile('ground', context, 15, 6);
-	sprites.drawTile('ground', context, 14, 6);
-	sprites.drawTile('ground', context, 13, 6);
+	for (let x = 12; x < 16; ++x) {
+		sprites.drawTile('ground', context, x, 9);
+	}
 
-	sprites.drawTile('ground', context, 4, 11);
-	sprites.drawTile('ground', context, 3, 11);
-	sprites.drawTile('ground', context, 5, 11);
-	sprites.drawTile('ground', context, 6, 11);
-
+	for (let x = 4; x < 7; ++x) {
+		sprites.drawTile('ground', context, x, 11);
+	}
 }
 
 export function createBackgroundLayer(sprites) {

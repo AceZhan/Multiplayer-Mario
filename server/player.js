@@ -1,5 +1,30 @@
-import {Vector} from './math.js';
+var Vector = require( __dirname + '/vector.js');
 
+class PlayerClass {
+	constructor(id) {
+		this.id = id;
+		this.pos = new Vector(48, 180);
+		this.vel = new Vector(0, 0);
+		this.number = "" + Math.floor(10 * Math.random());
+		this.pressingRight = false;
+		this.pressingLeft = false;
+	}
+
+ 	jump() {
+ 		this.vel.set(0, -10)
+ 	}
+
+	update() {
+		this.pos.x += this.vel.x;
+		this.pos.y += this.vel.y;
+	}
+}
+
+module.exports = PlayerClass;
+
+
+
+/*
 export function createPlayer(id) {
 	this.pos = new Vector(0, 0);
 	this.id = id;
@@ -21,3 +46,4 @@ export function createPlayer(id) {
 			this.y += this.maxSpd;
 	}
 }
+*/

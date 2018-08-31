@@ -1,8 +1,9 @@
 var express = require('express');
 var app = express();
 var serv = require('http').Server(app);
-var math = require( __dirname + '/server/math.js');
-var tile = require( __dirname + '/server/TileCollider.js');
+var Matrix = require( __dirname + '/server/matrix.js');
+var TileCollider = require( __dirname + '/server/tilecollision.js');
+var PlayerClass = require( __dirname + '/server/player.js');
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/client/index.html');
@@ -13,32 +14,11 @@ app.use('/client',express.static(__dirname + '/client'));
 serv.listen(2000);
 console.log('Server Started');
 
-// function to create player
-function Player(id) {
-	this.pos = new math.Vector(0, 0);
-	this.id = id;
-	this.number = "" + Math.floor(10 * Math.random());
-	this.pressingRight = false;
-	this.pressingLeft = false;
-	this.pressingUp = false;
-	this.pressingDown = false;
-	this.maxSpd = 5;
-
-	this.update = function() {
-		if (this.pressingRight)
-			this.pos.x += this.maxSpd;
-		if (this.pressingLeft)
-			this.pos.x -= this.maxSpd;
-		if (this.pressingUp)
-			this.pos.y -= this.maxSpd;
-		if (this.pressingDown)
-			this.pos.y += this.maxSpd;
-	}
-}
-
+const deltaTime = 1/60;
+const gravity = 0.5;
 
 // Create Tiles
-var levelTiles = new math.Matrix();
+var levelTiles = new Matrix();
 
 for (let x = 0; x < 25; ++x) {
 	for (let y = 0; y < 14; ++y) {
@@ -56,11 +36,19 @@ for (let x = 0; x < 25; ++x) {
 	}
 }
 
-levelTiles.set(0, 0, {
-			name: 'ground',
-		});
+for (let x = 12; x < 16; ++x) {
+	levelTiles.set(x, 9, {
+		name: 'ground',
+	});
+}
 
-var tileCollider = new tile.TileCollider(levelTiles);
+for (let x = 4; x < 7; ++x) {
+	levelTiles.set(x, 11, {
+			name: 'ground',
+	});
+}
+
+var tileCollider = new TileCollider(levelTiles);
 
 
 // List to store multiple players
@@ -74,8 +62,9 @@ io.sockets.on('connection', function(socket) {
 	socket.id = Math.random();
 	SOCKET_LIST[socket.id] = socket;
 
-	var player = new Player(socket.id);
+	var player = new PlayerClass(socket.id);
 	PLAYER_LIST[socket.id] = player;
+
 
 	socket.on('disconnect', () => {
 		delete SOCKET_LIST[socket.id];
@@ -84,6 +73,18 @@ io.sockets.on('connection', function(socket) {
 
 
 	socket.on('keyPress', data => {
+		if (data.inputID === 'left') 
+			player.pressingLeft = data.state;
+		else if (data.inputID === 'right')
+			player.pressingRight = data.state;
+		else if (data.inputID === 'up')
+			player.pressingUp = data.state;
+		if (data.inputID === 'down')
+			player.pressingDown = data.state;
+		player.vel.set(200, 0);
+	});
+
+	socket.on('keyRelease', data => {
 		if (data.inputID === 'left')
 			player.pressingLeft = data.state;
 		else if (data.inputID === 'right')
@@ -92,9 +93,8 @@ io.sockets.on('connection', function(socket) {
 			player.pressingUp = data.state;
 		if (data.inputID === 'down')
 			player.pressingDown = data.state;
+		player.vel.set(0, 0);
 	});
-
-
 });
 
 setInterval(() => {
@@ -103,7 +103,7 @@ setInterval(() => {
 	for (var i in PLAYER_LIST) {
 		var player = PLAYER_LIST[i];
 		player.update();
-		tileCollider.test(player);
+		player.vel.y += gravity;
 		pack.push({
 			x:player.pos.x,
 			y:player.pos.y,
@@ -116,4 +116,4 @@ setInterval(() => {
 		socket.emit('newPosition', pack);
 	}
 
-}, 1000/25);
+}, 1000/60);

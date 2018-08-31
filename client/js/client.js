@@ -26,7 +26,6 @@ Promise.all([
 
 	window.addEventListener('keydown', event => {
 		const { keyCode } = event;
-
 		if (keyCode === 68) // pressing D key
 			socket.emit('keyPress', {inputID:'right', state:true});
 		else if (keyCode === 83)  // pressing S key
@@ -37,16 +36,17 @@ Promise.all([
 			socket.emit('keyPress', {inputID:'up', state:true});
 	});
 
+
 	window.addEventListener('keyup', event => {
 		const { keyCode } = event;
 		if (keyCode === 68)  // pressing D key
-			socket.emit('keyPress', {inputID:'right', state:false});
+			socket.emit('keyRelease', {inputID:'right', state:false});
 		else if (keyCode === 83)  // pressing S key
-			socket.emit('keyPress', {inputID:'down', state:false});
+			socket.emit('keyRelease', {inputID:'down', state:false});
 		else if (keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left', state:false});
+			socket.emit('keyRelease', {inputID:'left', state:false});
 		else if (keyCode === 87)  // pressing W key
-			socket.emit('keyPress', {inputID:'up', state:false});
+			socket.emit('keyRelease', {inputID:'up', state:false});
 	});
 	
 });

@@ -11,23 +11,26 @@ class PlayerClass {
 	}
 
  	jump() {
- 		this.vel.set(this.vel.x, -10);
+ 		this.vel.set(this.vel.x, -8);
  	}
 
  	moveRight() {
- 		this.vel.set(6, this.vel.y);
+ 		this.vel.set(5, this.vel.y);
  	}
 
  	moveLeft() {
- 		this.vel.set(-6, this.vel.y);
+ 		this.vel.set(-5, this.vel.y);
  	}
 
  	cancelHorizontal() {
  		this.vel.set(0, this.vel.y);
  	}
 
-	update() {
+	updateX() {
 		this.pos.x += this.vel.x;
+	}
+
+	updateY() {
 		this.pos.y += this.vel.y;
 	}
 }

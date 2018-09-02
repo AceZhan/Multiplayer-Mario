@@ -24,10 +24,14 @@ class TileIdentifier {
 		if (tileType) {
 			const y1 = indexY * this.tileSize;
 			const y2 = y1 + this.tileSize;
+			const x1 = indexX * this.tileSize;
+			const x2 = x1 + this.tileSize;
 			return {
 				tileType,
 				y1,
 				y2,
+				x1,
+				x2,
 			};
 		}
 	}
@@ -58,10 +62,19 @@ class TileCollider {
 	this.tiles = new TileIdentifier(tileMatrix);
 	}
 
-	checkBelow(player) {
+	checkY(player) {
+		let y;
+		if (player.vel.y > 0) {
+			y = player.pos.y + player.size.y;
+		} else if (player.vel.y < 0) {
+			y = player.pos.y;
+		} else {
+			return;
+		}
+
 		const matches = this.tiles.tileTypeByRange(
 			player.pos.x, player.pos.x + player.size.x, 
-			player.pos.y, player.pos.y + player.size.y);
+			y, y);
 
 		matches.forEach(match => {
 			if (!match) {
@@ -87,8 +100,42 @@ class TileCollider {
 		
 	}
 
-	test(player) {
-		this.checkBelow(player);
+	checkX(player) {
+		let x;
+		if (player.vel.x > 0) {
+			x = player.pos.x + player.size.x;
+		} else if (player.vel.x < 0) {
+			x = player.pos.x;
+		} else {
+			return;
+		}
+
+		const matches = this.tiles.tileTypeByRange(
+			x, x, 
+			player.pos.y, player.pos.y + player.size.y);
+
+		matches.forEach(match => {
+			if (!match) {
+			return;
+			}
+
+			if (match.tileType.name !== 'ground') {
+				return;
+			}
+
+			if (player.vel.x > 0) {
+				if (player.pos.x + player.size.x > match.x1) {
+					player.pos.x = match.x1 - player.size.x;
+					player.vel.x = 0;
+				}
+			} else if (player.vel.x < 0) {
+				if (player.pos.x < match.x2) {
+					player.pos.x = match.x2;
+					player.vel.x = 0;
+				}
+			}
+		});
+		
 	}
 }
 

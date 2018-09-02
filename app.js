@@ -101,10 +101,14 @@ setInterval(() => {
 
 	for (var i in PLAYER_LIST) {
 		var player = PLAYER_LIST[i];
-		player.update();
+
 		player.vel.y += gravity;
 
-		tileCollider.test(player);
+		player.updateX();
+		tileCollider.checkX(player);
+
+		player.updateY();
+		tileCollider.checkY(player);
 
 		pack.push({
 			x:player.pos.x,

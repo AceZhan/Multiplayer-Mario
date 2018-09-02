@@ -15,8 +15,12 @@ function drawBackground(sprites, context) {
 		sprites.drawTile('ground', context, x, 9);
 	}
 
-	for (let x = 4; x < 7; ++x) {
+	for (let x = 6; x < 9; ++x) {
 		sprites.drawTile('ground', context, x, 11);
+	}
+
+	for (let x = 3; x < 5; ++x) {
+		sprites.drawTile('ground', context, x, 9);
 	}
 }
 

@@ -42,9 +42,15 @@ for (let x = 12; x < 16; ++x) {
 	});
 }
 
-for (let x = 4; x < 7; ++x) {
+for (let x = 6; x < 9; ++x) {
 	levelTiles.set(x, 11, {
 			name: 'ground',
+	});
+}
+
+for (let x = 3; x < 5; ++x) {
+	levelTiles.set(x, 9, {
+		name: 'ground',
 	});
 }
 
@@ -73,27 +79,20 @@ io.sockets.on('connection', function(socket) {
 
 
 	socket.on('keyPress', data => {
-		if (data.inputID === 'left') 
-			player.pressingLeft = data.state;
-		else if (data.inputID === 'right')
-			player.pressingRight = data.state;
-		else if (data.inputID === 'up')
-			player.pressingUp = data.state;
-		if (data.inputID === 'down')
-			player.pressingDown = data.state;
-		player.vel.set(200, 0);
+		if (data.inputID === 'jump') {
+			player.jump();
+		} 
+		if (data.inputID === 'left') {
+			player.moveLeft();
+		} else if (data.inputID === 'right') {
+			player.moveRight();
+		}
 	});
 
 	socket.on('keyRelease', data => {
-		if (data.inputID === 'left')
-			player.pressingLeft = data.state;
-		else if (data.inputID === 'right')
-			player.pressingRight = data.state;
-		else if (data.inputID === 'up')
-			player.pressingUp = data.state;
-		if (data.inputID === 'down')
-			player.pressingDown = data.state;
-		player.vel.set(0, 0);
+		if ((data.inputID === 'left') || (data.inputID === 'right'))  {
+			player.cancelHorizontal();
+		} 
 	});
 });
 
@@ -104,6 +103,9 @@ setInterval(() => {
 		var player = PLAYER_LIST[i];
 		player.update();
 		player.vel.y += gravity;
+
+		tileCollider.test(player);
+
 		pack.push({
 			x:player.pos.x,
 			y:player.pos.y,
@@ -116,4 +118,4 @@ setInterval(() => {
 		socket.emit('newPosition', pack);
 	}
 
-}, 1000/60);
+}, 1000/48);

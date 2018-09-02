@@ -5,13 +5,25 @@ class PlayerClass {
 		this.id = id;
 		this.pos = new Vector(48, 180);
 		this.vel = new Vector(0, 0);
+		this.size = new Vector(14, 16);
 		this.number = "" + Math.floor(10 * Math.random());
-		this.pressingRight = false;
-		this.pressingLeft = false;
+		this.maxSpd = 20;
 	}
 
  	jump() {
- 		this.vel.set(0, -10)
+ 		this.vel.set(this.vel.x, -10);
+ 	}
+
+ 	moveRight() {
+ 		this.vel.set(6, this.vel.y);
+ 	}
+
+ 	moveLeft() {
+ 		this.vel.set(-6, this.vel.y);
+ 	}
+
+ 	cancelHorizontal() {
+ 		this.vel.set(0, this.vel.y);
  	}
 
 	update() {
@@ -21,29 +33,3 @@ class PlayerClass {
 }
 
 module.exports = PlayerClass;
-
-
-
-/*
-export function createPlayer(id) {
-	this.pos = new Vector(0, 0);
-	this.id = id;
-	this.number = "" + Math.floor(10 * Math.random());
-	this.pressingRight = false;
-	this.pressingLeft = false;
-	this.pressingUp = false;
-	this.pressingDown = false;
-	this.maxSpd = 10;
-
-	this.update = function() {
-		if (this.pressingRight)
-			this.x += this.maxSpd;
-		if (this.pressingLeft)
-			this.x -= this.maxSpd;
-		if (this.pressingUp)
-			this.y -= this.maxSpd;
-		if (this.pressingDown)
-			this.y += this.maxSpd;
-	}
-}
-*/

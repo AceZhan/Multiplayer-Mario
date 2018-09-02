@@ -8,15 +8,26 @@ class TileIdentifier {
 		return Math.floor(pos / this.tileSize);
 	}
 
+	toIndexRange(pos1, pos2) {
+		const pMax = Math.ceil(pos2 / this.tileSize) * this.tileSize;
+		const range= [];
+		let pos = pos1;
+		do {
+			range.push(this.toIndex(pos));
+			pos += this.tileSize;
+		} while (pos < pMax);
+		return range;
+	}
+
 	getByIndex(indexX, indexY) {
 		const tileType = this.matrix.get(indexX, indexY);
 		if (tileType) {
 			const y1 = indexY * this.tileSize;
-			const x1 = indexX * this.tileSize;
+			const y2 = y1 + this.tileSize;
 			return {
 				tileType,
-				x1,
-				y1
+				y1,
+				y2,
 			};
 		}
 	}
@@ -26,6 +37,20 @@ class TileIdentifier {
 			this.toIndex(posX),
 			this.toIndex(posY));
 	}
+
+	tileTypeByRange(x1, x2, y1, y2) {
+		const matches = [];
+		this.toIndexRange(x1, x2).forEach(indexX => {
+			this.toIndexRange(y1, y2).forEach(indexY => {
+				const match = this.getByIndex(indexX, indexY);
+				if (match) {
+					matches.push(match);
+				}
+			});
+		});
+
+		return matches;
+	}
 }
 
 class TileCollider {
@@ -34,29 +59,36 @@ class TileCollider {
 	}
 
 	checkBelow(player) {
-		const match = this.tiles.tileTypeByPos(player.pos.x, player.pos.y);
+		const matches = this.tiles.tileTypeByRange(
+			player.pos.x, player.pos.x + player.size.x, 
+			player.pos.y, player.pos.y + player.size.y);
 
-		if (!tileType) {
+		matches.forEach(match => {
+			if (!match) {
 			return;
-		}
-
-		if (tileTile !== 'ground') {
-			return;
-		}
-
-		if (player.vel.y > 0) {
-			if (player.pos.y > match.y1 ) {
-				player.pos.y = match.y1;
-				entity.vel.y = 0;
 			}
-		}
+
+			if (match.tileType.name !== 'ground') {
+				return;
+			}
+
+			if (player.vel.y > 0) {
+				if (player.pos.y + player.size.y > match.y1) {
+					player.pos.y = match.y1 - player.size.y;
+					player.vel.y = 0;
+				}
+			} else if (player.vel.y < 0) {
+				if (player.pos.y < match.y2) {
+					player.pos.y = match.y2;
+					player.vel.y = 0;
+				}
+			}
+		});
+		
 	}
 
 	test(player) {
-		const tileType = this.tiles.tileTypeByPos(player.pos.x, player.pos.y);
-		if (tileType) {
-			console.log('Matched tile', tileType);
-		}
+		this.checkBelow(player);
 	}
 }
 

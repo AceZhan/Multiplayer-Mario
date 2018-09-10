@@ -1,5 +1,6 @@
 import {loadBackgroundSprites, loadMarioSprite} from './sprites.js';
 import {createBackgroundLayer} from './layers.js';
+import {correctFrame} from './animationhandler.js';
 
 var socket = io();
 
@@ -14,11 +15,14 @@ Promise.all([
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
+	
+
 	socket.on('newPosition', (data) => {
 		context.drawImage(backgroundBuffer, 0, 0);
 		
 		for (var i = 0; i < data.length; i++) {
-			mario.draw('idle', context, data[i].x, data[i].y);
+			mario.draw(correctFrame(data[i].dirX, data[i].dirY, data[i].distance),
+			 context, data[i].x, data[i].y);
 		}
 
 	});

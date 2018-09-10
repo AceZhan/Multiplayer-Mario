@@ -1,4 +1,4 @@
-var Vector = require( __dirname + '/vector.js');
+let Vector = require( __dirname + '/vector.js');
 
 class PlayerClass {
 	constructor(id) {
@@ -7,7 +7,7 @@ class PlayerClass {
 		this.vel = new Vector(0, 0);
 		this.size = new Vector(14, 16);
 		this.number = "" + Math.floor(10 * Math.random());
-		this.maxSpd = 20;
+		this.distance = 0;
 	}
 
  	jump() {
@@ -15,11 +15,11 @@ class PlayerClass {
  	}
 
  	moveRight() {
- 		this.vel.set(5, this.vel.y);
+ 		this.vel.set(2, this.vel.y);
  	}
 
  	moveLeft() {
- 		this.vel.set(-5, this.vel.y);
+ 		this.vel.set(-2, this.vel.y);
  	}
 
  	cancelHorizontal() {
@@ -28,6 +28,7 @@ class PlayerClass {
 
 	updateX() {
 		this.pos.x += this.vel.x;
+		this.distance += Math.abs(this.vel.x);
 	}
 
 	updateY() {

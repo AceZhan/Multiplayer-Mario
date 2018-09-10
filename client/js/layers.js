@@ -1,6 +1,6 @@
 function drawBackground(sprites, context) {
-	for (let x = 0; x < 25; ++x) {
-		for (let y = 0; y < 14; ++y) {
+	for (let x = 0; x < 32; ++x) {
+		for (let y = 0; y < 51; ++y) {
 			sprites.drawTile('sky', context, x, y);
 		}
 	}
@@ -26,8 +26,8 @@ function drawBackground(sprites, context) {
 
 export function createBackgroundLayer(sprites) {
 	const buffer = document.createElement('canvas');
-	buffer.width = 256;
-	buffer.height = 240;
+	buffer.width = 2048;
+	buffer.height = 360;
 
 	drawBackground(sprites, buffer.getContext('2d'));
 

@@ -1,9 +1,9 @@
-var express = require('express');
-var app = express();
-var serv = require('http').Server(app);
-var Matrix = require( __dirname + '/server/matrix.js');
-var TileCollider = require( __dirname + '/server/tilecollision.js');
-var PlayerClass = require( __dirname + '/server/player.js');
+let express = require('express');
+let app = express();
+let serv = require('http').Server(app);
+let Matrix = require( __dirname + '/server/matrix.js');
+let TileCollider = require( __dirname + '/server/tilecollision.js');
+let PlayerClass = require( __dirname + '/server/player.js');
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/client/index.html');
@@ -18,7 +18,7 @@ const deltaTime = 1/60;
 const gravity = 0.5;
 
 // Create Tiles
-var levelTiles = new Matrix();
+let levelTiles = new Matrix();
 
 for (let x = 0; x < 25; ++x) {
 	for (let y = 0; y < 14; ++y) {
@@ -54,21 +54,21 @@ for (let x = 3; x < 5; ++x) {
 	});
 }
 
-var tileCollider = new TileCollider(levelTiles);
+let tileCollider = new TileCollider(levelTiles);
 
 
 // List to store multiple players
-var SOCKET_LIST = {};
-var PLAYER_LIST = {};
+let SOCKET_LIST = {};
+let PLAYER_LIST = {};
 
-var io = require('socket.io')(serv, {});
+let io = require('socket.io')(serv, {});
 io.sockets.on('connection', function(socket) {
 	console.log('socket connection');
 
 	socket.id = Math.random();
 	SOCKET_LIST[socket.id] = socket;
 
-	var player = new PlayerClass(socket.id);
+	let player = new PlayerClass(socket.id);
 	PLAYER_LIST[socket.id] = player;
 
 
@@ -97,10 +97,10 @@ io.sockets.on('connection', function(socket) {
 });
 
 setInterval(() => {
-	var pack =[];
+	let pack =[];
 
-	for (var i in PLAYER_LIST) {
-		var player = PLAYER_LIST[i];
+	for (let i in PLAYER_LIST) {
+		let player = PLAYER_LIST[i];
 
 		player.vel.y += gravity;
 
@@ -113,12 +113,15 @@ setInterval(() => {
 		pack.push({
 			x:player.pos.x,
 			y:player.pos.y,
-			number:player.number
+			number:player.number,
+			dirX:player.vel.x,
+			dirY:player.vel.y,
+			distance:player.distance
 		});
 	}
 
-	for (var i in SOCKET_LIST) {
-		var socket = SOCKET_LIST[i];
+	for (let i in SOCKET_LIST) {
+		let socket = SOCKET_LIST[i];
 		socket.emit('newPosition', pack);
 	}
 

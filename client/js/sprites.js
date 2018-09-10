@@ -16,6 +16,9 @@ export function loadMarioSprite() {
 	.then(image => {
 		const sprites = new SpriteSheet(image, 16, 16);
 		sprites.define('idle', 276, 44, 16, 16);
+		sprites.define('run-1', 290, 44, 16, 16);
+		sprites.define('run-2', 304, 43, 16, 16);
+		sprites.define('run-3', 321, 44, 16, 16);
 		return sprites;
 	});
 }

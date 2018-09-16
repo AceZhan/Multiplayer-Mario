@@ -22,7 +22,7 @@ Promise.all([
 		
 		for (var i = 0; i < data.length; i++) {
 			mario.draw(correctFrame(data[i].dirX, data[i].dirY, data[i].distance),
-			 context, data[i].x, data[i].y);
+			 context, data[i].x, data[i].y, data[i].dirX < 0);
 		}
 
 	});

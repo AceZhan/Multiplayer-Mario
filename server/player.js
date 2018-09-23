@@ -8,10 +8,12 @@ class PlayerClass {
 		this.size = new Vector(14, 16);
 		this.number = "" + Math.floor(10 * Math.random());
 		this.distance = 0;
+		this.alreadyJumped = false;
 	}
 
  	jump() {
  		this.vel.set(this.vel.x, -8);
+ 		this.alreadyJumped = true;
  	}
 
  	moveRight() {

@@ -79,7 +79,7 @@ io.sockets.on('connection', function(socket) {
 
 
 	socket.on('keyPress', data => {
-		if (data.inputID === 'jump') {
+		if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
 			player.jump();
 		} 
 		if (data.inputID === 'left') {

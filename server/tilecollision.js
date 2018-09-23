@@ -89,6 +89,7 @@ class TileCollider {
 				if (player.pos.y + player.size.y > match.y1) {
 					player.pos.y = match.y1 - player.size.y;
 					player.vel.y = 0;
+					player.alreadyJumped = false;
 				}
 			} else if (player.vel.y < 0) {
 				if (player.pos.y < match.y2) {

@@ -1,6 +1,6 @@
-import {loadBackgroundSprites, loadMarioSprite} from './sprites.js';
+import {loadBackgroundSprites, loadMarioSprite, loadAbilities} from './sprites.js';
 import {createBackgroundLayer} from './layers.js';
-import {correctFrame} from './animationhandler.js';
+import {correctFrame, correctDirection} from './animationhandler.js';
 
 var socket = io();
 
@@ -10,19 +10,22 @@ const context = canvas.getContext('2d');
 Promise.all([
 	loadBackgroundSprites(),
 	loadMarioSprite(),
+	loadAbilities(),
 ])
-.then(([sprites, mario]) => {
+.then(([sprites, mario, abilities]) => {
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
-	
-
 	socket.on('newPosition', (data) => {
 		context.drawImage(backgroundBuffer, 0, 0);
-		
-		for (var i = 0; i < data.length; i++) {
-			mario.draw(correctFrame(data[i].dirX, data[i].dirY, data[i].distance),
-			 context, data[i].x, data[i].y, data[i].dirX < 0);
+
+		for (let i = 0; i < data.length; i++) {
+			mario.draw(correctFrame(data[i].velX, data[i].velY, data[i].distance),
+			 context, data[i].x, data[i].y, correctDirection(data[i].direction, data[i].velX));
+
+			for (let j = 0; j < data[i].fireballs.length; j++) {
+				abilities.draw('Fireball', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y)
+			}
 		}
 
 	});
@@ -36,8 +39,10 @@ Promise.all([
 		//	socket.emit('keyPress', {inputID:'down'});
 		else if (keyCode === 65)  // pressing A key
 			socket.emit('keyPress', {inputID:'left'});
-		else if (keyCode === 32) // pressing jump
+		else if (keyCode === 87) // pressing jump
 			socket.emit('keyPress', {inputID:'jump'});
+		else if (keyCode == 32) // shooting fireball
+			socket.emit('keyPress', {inputID:'shoot'});
 	});
 
 

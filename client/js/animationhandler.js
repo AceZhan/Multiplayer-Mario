@@ -9,3 +9,17 @@ export function correctFrame(velX, velY, distance) {
 	}
 	return 'idle';
 }
+
+export function correctDirection(playerDir, playerVel) {
+	if (playerVel > 0) {
+		return false;
+	} else if (playerVel > 0) {
+		return true;
+	} else {
+		if (playerDir === 1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+}

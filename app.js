@@ -81,7 +81,10 @@ io.sockets.on('connection', function(socket) {
 	socket.on('keyPress', data => {
 		if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
 			player.jump();
-		} 
+		} else if (data.inputID === 'shoot') {
+		    player.shoot();
+		}
+
 		if (data.inputID === 'left') {
 			player.moveLeft();
 		} else if (data.inputID === 'right') {
@@ -97,7 +100,7 @@ io.sockets.on('connection', function(socket) {
 });
 
 setInterval(() => {
-	let pack =[];
+	let pack = [];
 
 	for (let i in PLAYER_LIST) {
 		let player = PLAYER_LIST[i];
@@ -114,9 +117,11 @@ setInterval(() => {
 			x:player.pos.x,
 			y:player.pos.y,
 			number:player.number,
-			dirX:player.vel.x,
-			dirY:player.vel.y,
-			distance:player.distance
+			velX:player.vel.x,
+			velY:player.vel.y,
+			direction:player.direction,
+			distance:player.distance,
+			fireballs:player.fireballs
 		});
 	}
 

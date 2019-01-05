@@ -44,7 +44,7 @@ class PlayerClass {
 	}
 
 	shoot() {
-		(this.fireballs).push(new Fireball(this.id, this.pos, this.fireballCount));
+		(this.fireballs).push(new Fireball(this.id, this.pos, this.fireballCount, this.direction));
 		this.fireballCount++; 
 	}
 

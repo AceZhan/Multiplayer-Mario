@@ -107,11 +107,17 @@ setInterval(() => {
 
 		player.vel.y += gravity;
 
+		(player.fireballs).forEach((ball) => {
+			ball.fire();
+			tileCollider.checkXBall(ball);
+			tileCollider.checkYBall(ball);
+		});
+
 		player.updateX();
-		tileCollider.checkX(player);
+		tileCollider.checkXPlayer(player);
 
 		player.updateY();
-		tileCollider.checkY(player);
+		tileCollider.checkYPlayer(player);
 
 		pack.push({
 			x:player.pos.x,

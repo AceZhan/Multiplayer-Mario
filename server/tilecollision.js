@@ -62,7 +62,7 @@ class TileCollider {
 	this.tiles = new TileIdentifier(tileMatrix);
 	}
 
-	checkY(player) {
+	checkYPlayer(player) {
 		let y;
 		if (player.vel.y > 0) {
 			y = player.pos.y + player.size.y;
@@ -101,7 +101,7 @@ class TileCollider {
 		
 	}
 
-	checkX(player) {
+	checkXPlayer(player) {
 		let x;
 		if (player.vel.x > 0) {
 			x = player.pos.x + player.size.x;
@@ -133,6 +133,83 @@ class TileCollider {
 				if (player.pos.x < match.x2) {
 					player.pos.x = match.x2;
 					player.vel.x = 0;
+				}
+			}
+		});
+		
+	}
+
+	checkYBall(fireball) {
+		let y;
+		if (fireball.vel.y > 0) {
+			y = fireball.pos.y + fireball.size.y;
+		} else if (fireball.vel.y < 0) {
+			y = fireball.pos.y;
+		} else {
+			return;
+		}
+
+		const matches = this.tiles.tileTypeByRange(
+			fireball.pos.x, fireball.pos.x + fireball.size.x, 
+			y, y);
+
+		matches.forEach(match => {
+			if (!match) {
+			return;
+			}
+
+			if (match.tileType.name !== 'ground') {
+				return;
+			}
+
+			if (fireball.vel.y > 0) {
+				if (fireball.pos.y + fireball.size.y > match.y1) {
+					fireball.pos.y = match.y1 - fireball.size.y;
+					fireball.vel.y = 0;
+					fireball.alreadyJumped = false;
+				}
+			} else if (fireball.vel.y < 0) {
+				if (fireball.pos.y < match.y2) {
+					fireball.pos.y = match.y2;
+					fireball.vel.y = 0;
+				}
+			}
+		});
+		
+	}
+
+	checkXBall(fireball) {
+		let x;
+		if (fireball.vel.x > 0) {
+			x = fireball.pos.x + fireball.size.x;
+		} else if (fireball.vel.x < 0) {
+			x = fireball.pos.x;
+		} else {
+			return;
+		}
+
+		const matches = this.tiles.tileTypeByRange(
+			x, x, 
+			fireball.pos.y, fireball.pos.y + fireball.size.y);
+
+		matches.forEach(match => {
+			if (!match) {
+			return;
+			}
+
+			if (match.tileType.name !== 'ground') {
+				return;
+			}
+
+			if (fireball.vel.x > 0) {
+				if (fireball.pos.x + fireball.size.x > match.x1) {
+					fireball.pos.x = match.x1 - fireball.size.x;
+					fireball.vel.x = 0;
+				}
+			} else if (fireball.vel.x < 0) {
+				if (fireball.pos.x < match.x2) {
+					fireball.pos.x = match.x2;
+					fireball.vel.x = 0;
 				}
 			}
 		});

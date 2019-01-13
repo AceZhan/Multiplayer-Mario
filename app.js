@@ -3,6 +3,7 @@ let app = express();
 let serv = require('http').Server(app);
 let Matrix = require( __dirname + '/server/matrix.js');
 let TileCollider = require( __dirname + '/server/tilecollision.js');
+let PlayerCollider = require( __dirname + '/server/playercollision.js');
 let PlayerClass = require( __dirname + '/server/player.js');
 
 app.get('/', (req, res) => {
@@ -56,7 +57,6 @@ for (let x = 3; x < 5; ++x) {
 
 let tileCollider = new TileCollider(levelTiles);
 
-
 // List to store multiple players
 let SOCKET_LIST = {};
 let PLAYER_LIST = {};
@@ -101,17 +101,12 @@ io.sockets.on('connection', function(socket) {
 
 setInterval(() => {
 	let pack = [];
+	let playerCollider = new PlayerCollider();
 
 	for (let i in PLAYER_LIST) {
 		let player = PLAYER_LIST[i];
 
 		player.vel.y += gravity;
-
-		(player.fireballs).forEach((ball) => {
-			ball.fire();
-			tileCollider.checkXBall(ball);
-			tileCollider.checkYBall(ball);
-		});
 
 		player.updateX();
 		tileCollider.checkXPlayer(player);
@@ -119,16 +114,38 @@ setInterval(() => {
 		player.updateY();
 		tileCollider.checkYPlayer(player);
 
-		pack.push({
-			x:player.pos.x,
-			y:player.pos.y,
-			number:player.number,
-			velX:player.vel.x,
-			velY:player.vel.y,
-			direction:player.direction,
-			distance:player.distance,
-			fireballs:player.fireballs
+		playerCollider.add({
+			left: player.pos.x,
+			right: player.pos.x + player.size.x,
+			top: player.pos.y,
+			bottom: player.pos.y + player.size.y
 		});
+	}
+
+	for (let i in PLAYER_LIST) {
+		let player = PLAYER_LIST[i];
+
+		(player.fireballs).forEach((ball) => {
+			ball.vel.y += gravity;
+
+			ball.updateX();
+			tileCollider.checkXBall(ball);
+
+			ball.updateY();
+			tileCollider.checkYBall(ball);
+			// playerCollider.checkCollision(ball, i);
+		});
+
+		pack.push({
+				x: player.pos.x,
+				y: player.pos.y,
+				number: player.number,
+				velX: player.vel.x,
+				velY: player.vel.y,
+				direction: player.direction,
+				distance: player.distance,
+				fireballs: player.fireballs
+			});
 	}
 
 	for (let i in SOCKET_LIST) {

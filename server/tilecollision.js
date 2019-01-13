@@ -162,18 +162,13 @@ class TileCollider {
 				return;
 			}
 
-			if (fireball.vel.y > 0) {
+			if (fireball.vel.y >= 0) {
 				if (fireball.pos.y + fireball.size.y > match.y1) {
 					fireball.pos.y = match.y1 - fireball.size.y;
-					fireball.vel.y = 0;
-					fireball.alreadyJumped = false;
+					fireball.bounce();
+		
 				}
-			} else if (fireball.vel.y < 0) {
-				if (fireball.pos.y < match.y2) {
-					fireball.pos.y = match.y2;
-					fireball.vel.y = 0;
-				}
-			}
+			} 
 		});
 		
 	}
@@ -191,6 +186,7 @@ class TileCollider {
 		const matches = this.tiles.tileTypeByRange(
 			x, x, 
 			fireball.pos.y, fireball.pos.y + fireball.size.y);
+
 
 		matches.forEach(match => {
 			if (!match) {

@@ -10,8 +10,21 @@ class Fireball {
 		this.direction = playerDirection;
 	}
 
-	fire() {
+	updateX() {
 		this.pos.x += this.vel.x;
+	}
+
+	updateY() {
+		this.pos.y += this.vel.y;
+	}
+
+	bounce() {
+		this.vel.y = -3;
+	}
+
+	stop() {
+		this.vel.x = 0;
+		this.vel.y = 0;
 	}
 
 }

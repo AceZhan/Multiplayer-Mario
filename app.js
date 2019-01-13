@@ -115,6 +115,7 @@ setInterval(() => {
 		tileCollider.checkYPlayer(player);
 
 		playerCollider.add({
+			id: player.id,
 			left: player.pos.x,
 			right: player.pos.x + player.size.x,
 			top: player.pos.y,
@@ -133,8 +134,11 @@ setInterval(() => {
 
 			ball.updateY();
 			tileCollider.checkYBall(ball);
-			// playerCollider.checkCollision(ball, i);
+
+			playerCollider.checkCollision(ball);
 		});
+
+		player.filter();
 
 		pack.push({
 				x: player.pos.x,

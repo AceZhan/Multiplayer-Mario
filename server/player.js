@@ -48,6 +48,16 @@ class PlayerClass {
 		this.fireballCount++; 
 	}
 
+	filter() {
+		for (let i = 0; i < this.fireballs.length; ++i) {
+ 			let ball = this.fireballs[i];
+ 			if (ball.pos.x < 0 || ball.pos.x > 500 || ball.pos.y > 360) {
+ 				this.fireballs.splice(i, 1);
+ 				--this.fireballCount;
+ 			}
+		}
+	}
+
 
 }
 

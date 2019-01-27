@@ -1,4 +1,4 @@
-import {loadBackgroundSprites, loadMarioSprite, loadAbilities} from './sprites.js';
+import {loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion} from './sprites.js';
 import {createBackgroundLayer} from './layers.js';
 import {correctFrame, correctDirection} from './animationhandler.js';
 
@@ -11,8 +11,9 @@ Promise.all([
 	loadBackgroundSprites(),
 	loadMarioSprite(),
 	loadAbilities(),
+	loadExplosion(),
 ])
-.then(([sprites, mario, abilities]) => {
+.then(([sprites, mario, abilities, explosion]) => {
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
@@ -24,7 +25,11 @@ Promise.all([
 			 context, data[i].x, data[i].y, correctDirection(data[i].direction, data[i].velX));
 
 			for (let j = 0; j < data[i].fireballs.length; j++) {
-				abilities.draw('Fireball', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y)
+				if ((data[i].fireballs)[j].collided) {
+					explosion.draw('Explosion', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y);
+				} else {
+					abilities.draw('Fireball', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y);
+				}
 			}
 		}
 

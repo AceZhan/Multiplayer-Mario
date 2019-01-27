@@ -4,6 +4,7 @@ let Fireball = require( __dirname + '/abilities.js')
 class PlayerClass {
 	constructor(id) {
 		this.id = id;
+		this.hp = 3;
 		this.pos = new Vector(48, 180);
 		this.vel = new Vector(0, 0);
 		this.size = new Vector(14, 16);
@@ -51,7 +52,7 @@ class PlayerClass {
 	filter() {
 		for (let i = 0; i < this.fireballs.length; ++i) {
  			let ball = this.fireballs[i];
- 			if (ball.pos.x < 0 || ball.pos.x > 500 || ball.pos.y > 360) {
+ 			if (ball.pos.x < 0 || ball.pos.x > 500 || ball.pos.y > 360 || ball.explosionTime >= 4) {
  				this.fireballs.splice(i, 1);
  				--this.fireballCount;
  			}

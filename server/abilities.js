@@ -8,6 +8,8 @@ class Fireball {
 		this.vel = new Vector(playerDirection * 3.5, 0);
 		this.size = new Vector(8, 8);
 		this.direction = playerDirection;
+		this.collided = false;
+		this.explosionTime = 0;
 	}
 
 	updateX() {
@@ -25,6 +27,11 @@ class Fireball {
 	stop() {
 		this.vel.x = 0;
 		this.vel.y = 0;
+		this.collided = true;
+	}
+
+	explode() {
+		this.explosionTime += 1;
 	}
 
 }

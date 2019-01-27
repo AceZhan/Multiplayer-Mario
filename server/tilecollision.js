@@ -200,12 +200,12 @@ class TileCollider {
 			if (fireball.vel.x > 0) {
 				if (fireball.pos.x + fireball.size.x > match.x1) {
 					fireball.pos.x = match.x1 - fireball.size.x;
-					fireball.vel.x = 0;
+					fireball.stop();
 				}
 			} else if (fireball.vel.x < 0) {
 				if (fireball.pos.x < match.x2) {
 					fireball.pos.x = match.x2;
-					fireball.vel.x = 0;
+					fireball.stop();
 				}
 			}
 		});

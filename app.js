@@ -140,6 +140,12 @@ setInterval(() => {
 
 		player.filter();
 
+		(player.fireballs).forEach((ball) => {
+			if (ball.collided) {
+				ball.explode();
+			}
+		});
+
 		pack.push({
 				x: player.pos.x,
 				y: player.pos.y,

@@ -40,3 +40,12 @@ export function loadExplosion() {
 		return sprites;
 	});
 }
+
+export function loadHearts() {
+	return loadImage('/client/assets/heart.png')
+	.then(image => {
+		const sprites = new SpriteSheet(image, 16, 16);
+		sprites.define('Heart', 0, 0, 16, 16);
+		return sprites;
+	});
+}

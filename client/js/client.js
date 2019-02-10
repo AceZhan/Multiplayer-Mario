@@ -1,4 +1,4 @@
-import {loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion} from './sprites.js';
+import {loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion, loadHearts} from './sprites.js';
 import {createBackgroundLayer} from './layers.js';
 import {correctFrame, correctDirection} from './animationhandler.js';
 
@@ -12,8 +12,9 @@ Promise.all([
 	loadMarioSprite(),
 	loadAbilities(),
 	loadExplosion(),
+	loadHearts(),
 ])
-.then(([sprites, mario, abilities, explosion]) => {
+.then(([sprites, mario, abilities, explosion, hearts]) => {
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
@@ -23,6 +24,12 @@ Promise.all([
 		for (let i = 0; i < data.length; i++) {
 			mario.draw(correctFrame(data[i].velX, data[i].velY, data[i].distance),
 			 context, data[i].x, data[i].y, correctDirection(data[i].direction, data[i].velX));
+
+			let hp = data[i].hp;
+
+			for (let h = 0; h < data[i].hp; h++) {
+				hearts.draw('Heart', context, h * 16 + 4, 8);
+			}
 
 			for (let j = 0; j < data[i].fireballs.length; j++) {
 				if ((data[i].fireballs)[j].collided) {

@@ -14,6 +14,7 @@ class PlayerClass {
 		this.fireballCount = 0;
 		this.fireballs = [];
 		this.direction = 1;
+		this.hp = 3;
 	}
 
  	jump() {

@@ -154,7 +154,8 @@ setInterval(() => {
 				velY: player.vel.y,
 				direction: player.direction,
 				distance: player.distance,
-				fireballs: player.fireballs
+				fireballs: player.fireballs,
+				hp: player.hp,
 			});
 	}
 

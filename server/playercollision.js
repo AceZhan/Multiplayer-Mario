@@ -9,14 +9,16 @@ class PlayerCollider {
 		this.playerPositions.push(playerPositions);
 	}
 
-	checkBoundaries(point, ballID) {
-		for (let player of this.playerPositions) {
-			if (point.x >= player.left && point.x <= player.right &&
-				point.y <= player.bottom && point.y >= player.top && ballID !== player.id) {
-				return true;
+	checkBoundaries(point, ball) {
+		for (let playerPos of this.playerPositions) {
+			if (point.x >= playerPos.left && point.x <= playerPos.right &&
+				point.y <= playerPos.bottom && point.y >= playerPos.top && 
+				ball.playerID !== playerPos.id && !ball.collided) {
+				playerPos.player.hit();
+				ball.stop();
+				console.log(playerPos.player.hp);
 			}
 		}
-		return false;
 	}
 
 	checkCollision(ball) {
@@ -25,10 +27,10 @@ class PlayerCollider {
 		let topRight = new Vector(ball.pos.x + ball.size.x, ball.pos.y);
 		let bottomRight = new Vector(ball.pos.x + ball.size.x, ball.pos.y + ball.size.y);
 
-		if (this.checkBoundaries(topLeft, ball.playerID) || this.checkBoundaries(bottomLeft, ball.playerID) ||
-			this.checkBoundaries(topRight, ball.playerID) || this.checkBoundaries(bottomRight, ball.playerID)) {
-			ball.stop();
-		}
+		this.checkBoundaries(topLeft, ball);
+		this.checkBoundaries(bottomLeft, ball);
+		this.checkBoundaries(topRight, ball);
+		this.checkBoundaries(bottomRight, ball);
 	}
 }
 

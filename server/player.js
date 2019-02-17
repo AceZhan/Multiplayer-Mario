@@ -60,6 +60,10 @@ class PlayerClass {
 		}
 	}
 
+	hit() {
+		this.hp--;
+	}
+
 
 }
 

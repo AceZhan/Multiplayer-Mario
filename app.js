@@ -116,6 +116,7 @@ setInterval(() => {
 
 		playerCollider.add({
 			id: player.id,
+			player: player,
 			left: player.pos.x + 2,
 			right: player.pos.x + player.size.x - 2,
 			top: player.pos.y + 2,

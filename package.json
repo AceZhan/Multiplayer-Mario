@@ -7,15 +7,18 @@
     "express": "^4.16.3",
     "socket.io": "^2.1.1"
   },
+  "engines": {
+    "node": "8.11.x"
+  },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/azzhan/Multiplayer-Arcade-Game.git"
   },
-  "author": "",
+  "author": "Ace Zhan",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/azzhan/Multiplayer-Arcade-Game/issues"

@@ -21,24 +21,33 @@ Promise.all([
 	socket.on('newPosition', (data) => {
 		context.drawImage(backgroundBuffer, 0, 0);
 
-		for (let i = 0; i < data.length; i++) {
-			mario.draw(correctFrame(data[i].velX, data[i].velY, data[i].distance),
-			 context, data[i].x, data[i].y, correctDirection(data[i].direction, data[i].velX));
+		let positions = data.positions;
 
-			let hp = data[i].hp;
+		for (let i = 0; i < positions.length; i++) {
+			mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
+			 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
 
-			for (let h = 0; h < data[i].hp; h++) {
-				hearts.draw('Heart', context, h * 16 + 4, 8);
-			}
-
-			for (let j = 0; j < data[i].fireballs.length; j++) {
-				if ((data[i].fireballs)[j].collided) {
-					explosion.draw('Explosion', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y);
+			for (let j = 0; j < positions[i].fireballs.length; j++) {
+				if ((positions[i].fireballs)[j].collided) {
+					explosion.draw('Explosion', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
 				} else {
-					abilities.draw('Fireball', context, (data[i].fireballs)[j].pos.x, (data[i].fireballs)[j].pos.y);
+					abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
 				}
 			}
 		}
+
+		let playerID = data.playerID;
+		let hp;
+		for (let i = 0; i < positions.length; ++i) {
+			if (playerID === positions[i].id) {
+				hp = positions[i].hp;
+			}
+		}
+
+		for (let h = 0; h < hp; h++) {
+			hearts.draw('Heart', context, h * 16 + 4, 8);
+		}
+
 
 	});
 

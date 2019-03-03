@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
 app.use('/client',express.static(__dirname + '/client'));
 
-serv.listen(process.env.PORT);
+serv.listen(process.env.PORT || 2000);
 console.log('Server Started');
 
 const deltaTime = 1/60;

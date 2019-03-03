@@ -1,5 +1,5 @@
 {
-  "name": "multiplayerbrowsergame",
+  "name": "multiplayermario",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,7 +8,7 @@
     "socket.io": "^2.1.1"
   },
   "engines": {
-    "node": "4.1.x"
+    "node": "8.11.x"
   },
   "devDependencies": {},
   "scripts": {

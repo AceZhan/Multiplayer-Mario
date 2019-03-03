@@ -5,6 +5,7 @@ let Matrix = require( __dirname + '/server/matrix.js');
 let TileCollider = require( __dirname + '/server/tilecollision.js');
 let PlayerCollider = require( __dirname + '/server/playercollision.js');
 let PlayerClass = require( __dirname + '/server/player.js');
+let port = process.env.PORT || 2000;
 
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/client/index.html');
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
 
 app.use('/client',express.static(__dirname + '/client'));
 
-serv.listen(process.env.PORT || 2000);
+serv.listen(port);
 console.log('Server Started');
 
 const deltaTime = 1/60;

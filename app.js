@@ -106,6 +106,11 @@ setInterval(() => {
 
 	for (let i in PLAYER_LIST) {
 		let player = PLAYER_LIST[i];
+		let alive = true;
+
+		if (player.hp <== 0) {
+			alive = false;
+		}
 
 		player.vel.y += gravity;
 
@@ -121,7 +126,8 @@ setInterval(() => {
 			left: player.pos.x + 2,
 			right: player.pos.x + player.size.x - 2,
 			top: player.pos.y + 2,
-			bottom: player.pos.y + player.size.y - 2
+			bottom: player.pos.y + player.size.y - 2,
+			alive: alive
 		});
 	}
 

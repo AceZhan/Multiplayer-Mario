@@ -5,22 +5,30 @@ function drawBackground(sprites, context) {
 		}
 	}
 
-	for (let x = 0; x < 25; ++x) {
-		for (let y = 12; y < 14; ++y) {
+	for (let x = 2; x < 29; ++x) {
+		for (let y = 16; y < 18; ++y) {
 			sprites.drawTile('ground', context, x, y);
 		}
 	}
 
-	for (let x = 12; x < 16; ++x) {
-		sprites.drawTile('ground', context, x, 9);
+	for (let x = 6; x < 10; ++x) {
+		sprites.drawTile('ground', context, x, 13);
 	}
 
-	for (let x = 6; x < 9; ++x) {
-		sprites.drawTile('ground', context, x, 11);
+	for (let x = 13; x < 17; ++x) {
+		sprites.drawTile('ground', context, x, 13);
 	}
 
-	for (let x = 3; x < 5; ++x) {
-		sprites.drawTile('ground', context, x, 9);
+	for (let x = 20; x < 24; ++x) {
+		sprites.drawTile('ground', context, x, 13);
+	}
+
+	for (let x = 9; x < 13; ++x) {
+		sprites.drawTile('ground', context, x, 10);
+	}
+
+	for (let x = 17; x < 21; ++x) {
+		sprites.drawTile('ground', context, x, 10);
 	}
 }
 

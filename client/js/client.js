@@ -1,4 +1,5 @@
 import {loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion, loadHearts} from './sprites.js';
+import {loadFont} from './font.js';
 import {createBackgroundLayer} from './layers.js';
 import {correctFrame, correctDirection} from './animationhandler.js';
 
@@ -13,8 +14,9 @@ Promise.all([
 	loadAbilities(),
 	loadExplosion(),
 	loadHearts(),
+	loadFont(),
 ])
-.then(([sprites, mario, abilities, explosion, hearts]) => {
+.then(([sprites, mario, abilities, explosion, hearts, font]) => {
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
@@ -44,11 +46,15 @@ Promise.all([
 			}
 		}
 
-		for (let h = 0; h < hp; h++) {
-			hearts.draw('Heart', context, h * 16 + 4, 8);
+		font.print('GAME OVER', context, 164, 64, 2);
+
+		if (hp === undefined) {
+
+		} else {
+			for (let h = 0; h < hp; h++) {
+				hearts.draw('Heart', context, h * 16 + 4, 8);
+			}
 		}
-
-
 	});
 
 

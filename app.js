@@ -19,7 +19,7 @@ console.log('Server Started');
 const deltaTime = 1/60;
 const gravity = 0.5;
 
-// Create Tiles
+// Create Tiles (refactor into new file later)
 let levelTiles = new Matrix();
 
 for (let x = 0; x < 25; ++x) {
@@ -30,28 +30,41 @@ for (let x = 0; x < 25; ++x) {
 	}
 }
 
-for (let x = 0; x < 25; ++x) {
-	for (let y = 12; y < 14; ++y) {
+for (let x = 2; x < 29; ++x) {
+	for (let y = 16; y < 18; ++y) {
 		levelTiles.set(x, y, {
 			name: 'ground',
 		});
 	}
 }
 
-for (let x = 12; x < 16; ++x) {
-	levelTiles.set(x, 9, {
+for (let x = 6; x < 10; ++x) {
+	levelTiles.set(x, 13, {
 		name: 'ground',
 	});
 }
 
-for (let x = 6; x < 9; ++x) {
-	levelTiles.set(x, 11, {
+for (let x = 13; x < 17; ++x) {
+	levelTiles.set(x, 13, {
+		name: 'ground',
+	});
+}
+
+for (let x = 20; x < 24; ++x) {
+	levelTiles.set(x, 13, {
+		name: 'ground',
+	});
+}
+
+
+for (let x = 9; x < 13; ++x) {
+	levelTiles.set(x, 10, {
 			name: 'ground',
 	});
 }
 
-for (let x = 3; x < 5; ++x) {
-	levelTiles.set(x, 9, {
+for (let x = 17; x < 21; ++x) {
+	levelTiles.set(x, 10, {
 		name: 'ground',
 	});
 }
@@ -61,6 +74,7 @@ let tileCollider = new TileCollider(levelTiles);
 // List to store multiple players
 let SOCKET_LIST = {};
 let PLAYER_LIST = {};
+let DEAD_PLAYER_LIST = {};
 
 let io = require('socket.io')(serv, {});
 io.sockets.on('connection', socket => {
@@ -108,8 +122,9 @@ setInterval(() => {
 		let player = PLAYER_LIST[i];
 		let alive = true;
 
-		if (player.hp <== 0) {
-			alive = false;
+		if (player.hp <= 0) {
+			DEAD_PLAYER_LIST[i] = player;
+			delete PLAYER_LIST[i];
 		}
 
 		player.vel.y += gravity;
@@ -127,7 +142,6 @@ setInterval(() => {
 			right: player.pos.x + player.size.x - 2,
 			top: player.pos.y + 2,
 			bottom: player.pos.y + player.size.y - 2,
-			alive: alive
 		});
 	}
 

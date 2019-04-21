@@ -1,6 +1,7 @@
 import {loadImage} from './loaders.js';
 import SpriteSheet from './SpriteSheet.js';
 
+
 export function loadBackgroundSprites() {
 	return loadImage('/client/assets/tileset.png')
 	.then(image => {

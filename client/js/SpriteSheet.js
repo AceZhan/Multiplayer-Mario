@@ -40,10 +40,10 @@ export default class SpriteSheet {
 		this.define(name, x * this.width, y* this.height, this.width, this.height);
 	}
 
-	draw(name, context, x, y, flipped = false) {
+	draw(name, context, x, y, flipped = false, scale = 1) {
 		const buffer = this.tiles.get(name)[flipped ? 1 : 0];
 		
-		context.drawImage(buffer, x, y);
+		context.drawImage(buffer, x, y, scale * buffer.width, scale * buffer.height);
 	}
 
 	drawTile(name, context, x, y) {

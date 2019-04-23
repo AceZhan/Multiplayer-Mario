@@ -1,12 +1,15 @@
-import {loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion, loadHearts} from './sprites.js';
-import {loadFont} from './font.js';
-import {createBackgroundLayer} from './layers.js';
-import {correctFrame, correctDirection} from './animationhandler.js';
+import { loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion, loadHearts } from './sprites.js';
+import { loadFont } from './font.js';
+import { createBackgroundLayer } from './layers.js';
+import { correctFrame, correctDirection } from './animationhandler.js';
+import { handleKeyDown, handleKeyUp } from './keyhandlers.js';
 
 var socket = io();
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
+
+let dead = false;
 
 Promise.all([
 	loadBackgroundSprites(),
@@ -46,11 +49,32 @@ Promise.all([
 			}
 		}
 
-		font.print('GAME OVER', context, 164, 64, 2);
 
 		if (hp === undefined) {
-
+			font.print('GAME OVER', context, 164, 64, 2);
+			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('keyup', handleKeyUp);
+			window.addEventListener('keydown', event => {
+				const { keyCode } = event;
+				if (keyCode === 32) {
+					socket.emit('revive');
+				}
+			});
+			dead = true;
 		} else {
+			if (dead) {
+				window.addEventListener('keydown', event => {
+					handleKeyDown(event, socket);
+				});
+
+				window.addEventListener('keyup', event => {
+					handleKeyUp(event, socket);
+				});
+
+				dead = false;
+			}
+
+
 			for (let h = 0; h < hp; h++) {
 				hearts.draw('Heart', context, h * 16 + 4, 8);
 			}
@@ -59,29 +83,12 @@ Promise.all([
 
 
 	window.addEventListener('keydown', event => {
-		const { keyCode } = event;
-		if (keyCode === 68) // pressing D key
-			socket.emit('keyPress', {inputID:'right'});
-		// else if (keyCode === 83)  // pressing S key
-		//	socket.emit('keyPress', {inputID:'down'});
-		else if (keyCode === 65)  // pressing A key
-			socket.emit('keyPress', {inputID:'left'});
-		else if (keyCode === 87) // pressing jump
-			socket.emit('keyPress', {inputID:'jump'});
-		else if (keyCode == 32) // shooting fireball
-			socket.emit('keyPress', {inputID:'shoot'});
+		handleKeyDown(event, socket);
 	});
 
 
 	window.addEventListener('keyup', event => {
-		const { keyCode } = event;
-		if (keyCode === 68)  // pressing D key
-			socket.emit('keyRelease', {inputID:'right'});
-
-		// else if (keyCode === 83)  // pressing S key
-		//	socket.emit('keyRelease', {inputID:'down'});
-		else if (keyCode === 65)  // pressing A key
-			socket.emit('keyRelease', {inputID:'left'});
+		handleKeyUp(event, socket);
 	});
 	
 });

@@ -7,7 +7,7 @@ class Font {
 		this.size = size;
 	}
 
-	print(text, context, x, y, scale) {
+	print(text, context, x, y, scale = 1) {
 		[...text].forEach((char, pos) => {
 			this.sprites.draw(char, context, x + pos * this.size * scale, y, false, scale);
 		});

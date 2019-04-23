@@ -84,7 +84,9 @@ io.sockets.on('connection', socket => {
 	SOCKET_LIST[socket.id] = socket;
 
 	let player = new PlayerClass(socket.id);
+
 	PLAYER_LIST[socket.id] = player;
+	
 
 
 	socket.on('disconnect', () => {
@@ -97,7 +99,7 @@ io.sockets.on('connection', socket => {
 		if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
 			player.jump();
 		} else if (data.inputID === 'shoot') {
-		    player.shoot();
+	    	player.shoot();
 		}
 
 		if (data.inputID === 'left') {
@@ -105,12 +107,18 @@ io.sockets.on('connection', socket => {
 		} else if (data.inputID === 'right') {
 			player.moveRight();
 		}
+		
 	});
 
 	socket.on('keyRelease', data => {
 		if ((data.inputID === 'left') || (data.inputID === 'right'))  {
 			player.cancelHorizontal();
 		} 
+	});
+
+	socket.on('revive', () => {
+		let player = new PlayerClass(socket.id);
+		PLAYER_LIST[socket.id] = player;
 	});
 });
 
@@ -123,7 +131,6 @@ setInterval(() => {
 		let alive = true;
 
 		if (player.hp <= 0) {
-			DEAD_PLAYER_LIST[i] = player;
 			delete PLAYER_LIST[i];
 		}
 

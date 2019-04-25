@@ -23,3 +23,10 @@ export function handleKeyUp(event, socket) {
 		socket.emit('keyRelease', {inputID:'left'});
 	}
 }
+
+export function handleRevive(event, socket) {
+	const { keyCode } = event;
+	if (keyCode === 32) {
+		socket.emit('revive');
+	}
+}

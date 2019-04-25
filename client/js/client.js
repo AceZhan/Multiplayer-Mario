@@ -2,7 +2,7 @@ import { loadBackgroundSprites, loadMarioSprite, loadAbilities, loadExplosion, l
 import { loadFont } from './font.js';
 import { createBackgroundLayer } from './layers.js';
 import { correctFrame, correctDirection } from './animationhandler.js';
-import { handleKeyDown, handleKeyUp } from './keyhandlers.js';
+import { handleKeyDown, handleKeyUp, handleRevive } from './keyhandlers.js';
 
 var socket = io();
 
@@ -52,17 +52,19 @@ Promise.all([
 
 		if (hp === undefined) {
 			font.print('GAME OVER', context, 164, 64, 2);
-			window.removeEventListener('keydown', handleKeyDown);
-			window.removeEventListener('keyup', handleKeyUp);
-			window.addEventListener('keydown', event => {
-				const { keyCode } = event;
-				if (keyCode === 32) {
-					socket.emit('revive');
+			if (!dead) {
+				console.log('here');
+				window.removeEventListener('keydown', handleKeyDown);
+				window.removeEventListener('keyup', handleKeyUp);
+				window.addEventListener('keydown', event => {
+					handleRevive(event, socket);
+				});
+				dead = true;
 				}
-			});
-			dead = true;
 		} else {
 			if (dead) {
+				window.removeEventListener('keydown', handleRevive);
+
 				window.addEventListener('keydown', event => {
 					handleKeyDown(event, socket);
 				});
@@ -85,7 +87,6 @@ Promise.all([
 	window.addEventListener('keydown', event => {
 		handleKeyDown(event, socket);
 	});
-
 
 	window.addEventListener('keyup', event => {
 		handleKeyUp(event, socket);

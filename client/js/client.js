@@ -66,8 +66,8 @@ Promise.all([
 
 		if (hp <= 0) {
 			font.print('GAME OVER', context, 164, 64, 2);
+			font.print('Press Space to Play Again', context, 134, 84, 1);
 			if (!dead) {
-				console.log('here');
 				window.removeEventListener('keydown', handleKeyDownWrapper);
 				window.removeEventListener('keyup', handleKeyUpWrapper);
 				window.addEventListener('keydown', handleReviveWrapper);
@@ -80,7 +80,6 @@ Promise.all([
 				window.addEventListener('keyup', handleKeyUpWrapper);
 
 				dead = false;
-				debugger;
 			}
 
 

@@ -21,53 +21,23 @@ const gravity = 0.5;
 
 // Create Tiles (refactor into new file later)
 let levelTiles = new Matrix();
-
-for (let x = 0; x < 25; ++x) {
-	for (let y = 0; y < 14; ++y) {
-		levelTiles.set(x, y, {
-			name:'sky'
-		});
+let tileSetter = function(levelTiles, tileType, xStart, xEnd, yStart, yEnd) {
+	for (let x = xStart; x < xEnd; ++x) {
+		for (let y = yStart; y < yEnd; ++y) {
+			levelTiles.set(x, y, {
+				name:tileType
+			});
+		}
 	}
-}
+};
 
-for (let x = 2; x < 29; ++x) {
-	for (let y = 16; y < 18; ++y) {
-		levelTiles.set(x, y, {
-			name: 'ground',
-		});
-	}
-}
-
-for (let x = 6; x < 10; ++x) {
-	levelTiles.set(x, 13, {
-		name: 'ground',
-	});
-}
-
-for (let x = 13; x < 17; ++x) {
-	levelTiles.set(x, 13, {
-		name: 'ground',
-	});
-}
-
-for (let x = 20; x < 24; ++x) {
-	levelTiles.set(x, 13, {
-		name: 'ground',
-	});
-}
-
-
-for (let x = 9; x < 13; ++x) {
-	levelTiles.set(x, 10, {
-			name: 'ground',
-	});
-}
-
-for (let x = 17; x < 21; ++x) {
-	levelTiles.set(x, 10, {
-		name: 'ground',
-	});
-}
+tileSetter(levelTiles, 'sky', 0, 25, 0, 14);
+tileSetter(levelTiles, 'ground', 2, 29, 16, 18);
+tileSetter(levelTiles, 'ground', 6, 10, 13, 14);
+tileSetter(levelTiles, 'ground', 13, 17, 13, 14);
+tileSetter(levelTiles, 'ground', 20, 24, 13, 14);
+tileSetter(levelTiles, 'ground', 9, 13, 10, 11);
+tileSetter(levelTiles, 'ground', 17, 21, 10, 11);
 
 let tileCollider = new TileCollider(levelTiles);
 
@@ -135,7 +105,6 @@ setInterval(() => {
 		if (player.hp <= 0) {
 			DEAD_PLAYER_LIST[i] = player;
 			delete PLAYER_LIST[i];
-			// player.state = false;
 		}
 
 		player.vel.y += gravity;

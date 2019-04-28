@@ -13,15 +13,15 @@ let dead = false;
 
 let handleKeyDownWrapper = function() {
 	handleKeyDown(event, socket);
-}
+};
 
 let handleKeyUpWrapper = function() {
 	handleKeyUp(event, socket);
-}
+};
 
 let handleReviveWrapper = function() {
 	handleRevive(event, socket);
-}
+};
 
 Promise.all([
 	loadBackgroundSprites(),
@@ -41,18 +41,16 @@ Promise.all([
 		let positions = data.positions;
 
 		for (let i = 0; i < positions.length; i++) {
-			// if (positions[i].state) {
-				mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
-				 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
+			mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
+			 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
 
-				for (let j = 0; j < positions[i].fireballs.length; j++) {
-					if ((positions[i].fireballs)[j].collided) {
-						explosion.draw('Explosion', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
-					} else {
-						abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
-					}
+			for (let j = 0; j < positions[i].fireballs.length; j++) {
+				if ((positions[i].fireballs)[j].collided) {
+					explosion.draw('Explosion', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
+				} else {
+					abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
 				}
-			// }
+			}
 		}
 
 		let playerID = data.playerID;

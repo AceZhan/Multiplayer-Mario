@@ -17,6 +17,18 @@ class PlayerClass {
 		this.state = true;
 	}
 
+	resetState() {
+		this.hp = 3;
+		this.pos = new Vector(48, 180);
+		this.vel = new Vector(0, 0);
+		this.distance = 0;
+		this.alreadyJumped = false;
+		this.fireballCount = 0;
+		this.fireballs = [];
+		this.direction = 1;
+		this.state = true;
+	}
+
  	jump() {
  		this.vel.set(this.vel.x, -8);
  		this.alreadyJumped = true;

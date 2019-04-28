@@ -121,7 +121,7 @@ io.sockets.on('connection', socket => {
 		PLAYER_LIST[socket.id] = DEAD_PLAYER_LIST[socket.id]
 		delete DEAD_PLAYER_LIST[socket.id];
 		// player.state = true;
-		player.hp = 3;
+		player.resetState();
 	});
 });
 

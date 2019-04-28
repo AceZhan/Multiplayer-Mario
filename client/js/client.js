@@ -4,12 +4,24 @@ import { createBackgroundLayer } from './layers.js';
 import { correctFrame, correctDirection } from './animationhandler.js';
 import { handleKeyDown, handleKeyUp, handleRevive } from './keyhandlers.js';
 
-var socket = io();
+let socket = io();
 
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
 let dead = false;
+
+let handleKeyDownWrapper = function() {
+	handleKeyDown(event, socket);
+}
+
+let handleKeyUpWrapper = function() {
+	handleKeyUp(event, socket);
+}
+
+let handleReviveWrapper = function() {
+	handleRevive(event, socket);
+}
 
 Promise.all([
 	loadBackgroundSprites(),
@@ -29,14 +41,16 @@ Promise.all([
 		let positions = data.positions;
 
 		for (let i = 0; i < positions.length; i++) {
-			mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
-			 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
+			if (positions[i].state) {
+				mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
+				 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
 
-			for (let j = 0; j < positions[i].fireballs.length; j++) {
-				if ((positions[i].fireballs)[j].collided) {
-					explosion.draw('Explosion', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
-				} else {
-					abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
+				for (let j = 0; j < positions[i].fireballs.length; j++) {
+					if ((positions[i].fireballs)[j].collided) {
+						explosion.draw('Explosion', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
+					} else {
+						abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
+					}
 				}
 			}
 		}
@@ -50,30 +64,23 @@ Promise.all([
 		}
 
 
-		if (hp === undefined) {
+		if (hp <= 0) {
 			font.print('GAME OVER', context, 164, 64, 2);
 			if (!dead) {
 				console.log('here');
-				window.removeEventListener('keydown', handleKeyDown);
-				window.removeEventListener('keyup', handleKeyUp);
-				window.addEventListener('keydown', event => {
-					handleRevive(event, socket);
-				});
+				window.removeEventListener('keydown', handleKeyDownWrapper);
+				window.removeEventListener('keyup', handleKeyUpWrapper);
+				window.addEventListener('keydown', handleReviveWrapper);
 				dead = true;
 				}
 		} else {
 			if (dead) {
-				window.removeEventListener('keydown', handleRevive);
-
-				window.addEventListener('keydown', event => {
-					handleKeyDown(event, socket);
-				});
-
-				window.addEventListener('keyup', event => {
-					handleKeyUp(event, socket);
-				});
+				window.removeEventListener('keydown', handleReviveWrapper);
+				window.addEventListener('keydown', handleKeyDownWrapper);
+				window.addEventListener('keyup', handleKeyUpWrapper);
 
 				dead = false;
+				debugger;
 			}
 
 
@@ -83,14 +90,8 @@ Promise.all([
 		}
 	});
 
-
-	window.addEventListener('keydown', event => {
-		handleKeyDown(event, socket);
-	});
-
-	window.addEventListener('keyup', event => {
-		handleKeyUp(event, socket);
-	});
+	window.addEventListener('keydown', handleKeyDownWrapper);
+	window.addEventListener('keyup', handleKeyUpWrapper);
 	
 });
 

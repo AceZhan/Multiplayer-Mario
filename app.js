@@ -86,8 +86,6 @@ io.sockets.on('connection', socket => {
 	let player = new PlayerClass(socket.id);
 
 	PLAYER_LIST[socket.id] = player;
-	
-
 
 	socket.on('disconnect', () => {
 		delete SOCKET_LIST[socket.id];
@@ -96,29 +94,32 @@ io.sockets.on('connection', socket => {
 
 
 	socket.on('keyPress', data => {
-		if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
+		if (player.state) {
+			if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
 			player.jump();
-		} else if (data.inputID === 'shoot') {
-	    	player.shoot();
-		}
+			} else if (data.inputID === 'shoot') {
+		    	player.shoot();
+			}
 
-		if (data.inputID === 'left') {
-			player.moveLeft();
-		} else if (data.inputID === 'right') {
-			player.moveRight();
+			if (data.inputID === 'left') {
+				player.moveLeft();
+			} else if (data.inputID === 'right') {
+				player.moveRight();
+			}
 		}
-		
 	});
 
 	socket.on('keyRelease', data => {
-		if ((data.inputID === 'left') || (data.inputID === 'right'))  {
-			player.cancelHorizontal();
-		} 
+		if (player.state) {
+			if ((data.inputID === 'left') || (data.inputID === 'right'))  {
+				player.cancelHorizontal();
+			} 
+		}
 	});
 
 	socket.on('revive', () => {
-		let player = new PlayerClass(socket.id);
-		PLAYER_LIST[socket.id] = player;
+		player.state = true;
+		player.hp = 3;
 	});
 });
 
@@ -128,10 +129,9 @@ setInterval(() => {
 
 	for (let i in PLAYER_LIST) {
 		let player = PLAYER_LIST[i];
-		let alive = true;
 
 		if (player.hp <= 0) {
-			delete PLAYER_LIST[i];
+			player.state = false;
 		}
 
 		player.vel.y += gravity;
@@ -185,7 +185,8 @@ setInterval(() => {
 			direction: player.direction,
 			distance: player.distance,
 			fireballs: player.fireballs,
-			hp: player.hp
+			hp: player.hp,
+			state: player.state
 		});
 	}
 

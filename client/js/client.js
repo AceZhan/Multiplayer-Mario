@@ -41,7 +41,7 @@ Promise.all([
 		let positions = data.positions;
 
 		for (let i = 0; i < positions.length; i++) {
-			if (positions[i].state) {
+			// if (positions[i].state) {
 				mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
 				 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
 
@@ -52,7 +52,7 @@ Promise.all([
 						abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
 					}
 				}
-			}
+			// }
 		}
 
 		let playerID = data.playerID;
@@ -64,7 +64,7 @@ Promise.all([
 		}
 
 
-		if (hp <= 0) {
+		if (hp === undefined) {
 			font.print('GAME OVER', context, 164, 64, 2);
 			font.print('Press Space to Play Again', context, 134, 84, 1);
 			if (!dead) {

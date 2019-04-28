@@ -118,7 +118,9 @@ io.sockets.on('connection', socket => {
 	});
 
 	socket.on('revive', () => {
-		player.state = true;
+		PLAYER_LIST[socket.id] = DEAD_PLAYER_LIST[socket.id]
+		delete DEAD_PLAYER_LIST[socket.id];
+		// player.state = true;
 		player.hp = 3;
 	});
 });
@@ -131,7 +133,9 @@ setInterval(() => {
 		let player = PLAYER_LIST[i];
 
 		if (player.hp <= 0) {
-			player.state = false;
+			DEAD_PLAYER_LIST[i] = player;
+			delete PLAYER_LIST[i];
+			// player.state = false;
 		}
 
 		player.vel.y += gravity;

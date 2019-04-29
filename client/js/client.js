@@ -9,6 +9,10 @@ let socket = io();
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
+// context.webkitImageSmoothingEnabled = false;
+// context.mozImageSmoothingEnabled = false;
+context.imageSmoothingEnabled = false;
+
 let dead = false;
 
 let handleKeyDownWrapper = function() {
@@ -39,8 +43,20 @@ Promise.all([
 		context.drawImage(backgroundBuffer, 0, 0);
 
 		let positions = data.positions;
+		let playerID = data.playerID;
+		let playerNumber;
+		let hp;
+
+		for (let i = 0; i < positions.length; ++i) {
+			if (playerID === positions[i].id) {
+				hp = positions[i].hp;
+				playerNumber = positions[i].number;
+			}
+		}
 
 		for (let i = 0; i < positions.length; i++) {
+			font.print('Player ' + positions[i].number, context, positions[i].x - 8, positions[i].y - 8, 0.7);
+
 			mario.draw(correctFrame(positions[i].velX, positions[i].velY, positions[i].distance),
 			 context, positions[i].x, positions[i].y, correctDirection(positions[i].direction, positions[i].velX));
 
@@ -50,16 +66,6 @@ Promise.all([
 				} else {
 					abilities.draw('Fireball', context, (positions[i].fireballs)[j].pos.x, (positions[i].fireballs)[j].pos.y);
 				}
-			}
-		}
-
-		let playerID = data.playerID;
-		let playerNumber;
-		let hp;
-		for (let i = 0; i < positions.length; ++i) {
-			if (playerID === positions[i].id) {
-				hp = positions[i].hp;
-				playerNumber = positions[i].number;
 			}
 		}
 

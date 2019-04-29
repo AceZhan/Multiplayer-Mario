@@ -19,7 +19,7 @@ console.log('Server Started');
 const deltaTime = 1/60;
 const gravity = 0.5;
 
-// Create Tiles (refactor into new file later)
+// Create Tiles
 let levelTiles = new Matrix();
 let tileSetter = function(levelTiles, tileType, xStart, xEnd, yStart, yEnd) {
 	for (let x = xStart; x < xEnd; ++x) {
@@ -53,13 +53,16 @@ io.sockets.on('connection', socket => {
 	socket.id = Math.random();
 	SOCKET_LIST[socket.id] = socket;
 
-	let player = new PlayerClass(socket.id);
-
+	let player = new PlayerClass(socket.id, Object.keys(SOCKET_LIST).length);
 	PLAYER_LIST[socket.id] = player;
 
 	socket.on('disconnect', () => {
 		delete SOCKET_LIST[socket.id];
-		delete PLAYER_LIST[socket.id];
+		if (PLAYER_LIST[socket.id]) {
+			delete PLAYER_LIST[socket.id];
+		} else {
+			delete DEAD_PLAYER_LIST[socket.id];
+		}
 	});
 
 
@@ -159,7 +162,8 @@ setInterval(() => {
 			distance: player.distance,
 			fireballs: player.fireballs,
 			hp: player.hp,
-			state: player.state
+			state: player.state,
+			number: player.num
 		});
 	}
 

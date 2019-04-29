@@ -54,13 +54,14 @@ Promise.all([
 		}
 
 		let playerID = data.playerID;
+		let playerNumber;
 		let hp;
 		for (let i = 0; i < positions.length; ++i) {
 			if (playerID === positions[i].id) {
 				hp = positions[i].hp;
+				playerNumber = positions[i].number;
 			}
 		}
-
 
 		if (hp === undefined) {
 			font.print('GAME OVER', context, 164, 64, 2);
@@ -80,9 +81,9 @@ Promise.all([
 				dead = false;
 			}
 
-
+			font.print('Player ' + playerNumber + ':', context, 4, 12);
 			for (let h = 0; h < hp; h++) {
-				hearts.draw('Heart', context, h * 16 + 4, 8);
+				hearts.draw('Heart', context, h * 16 + 76, 8);
 			}
 		}
 	});

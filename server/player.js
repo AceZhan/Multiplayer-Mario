@@ -2,7 +2,7 @@ let Vector = require( __dirname + '/vector.js');
 let Fireball = require( __dirname + '/abilities.js')
 
 class PlayerClass {
-	constructor(id) {
+	constructor(id, playerNumber) {
 		this.id = id;
 		this.hp = 3;
 		this.pos = new Vector(48, 180);
@@ -15,6 +15,7 @@ class PlayerClass {
 		this.fireballs = [];
 		this.direction = 1;
 		this.state = true;
+		this.num = playerNumber;
 	}
 
 	resetState() {

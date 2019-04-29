@@ -45,15 +45,17 @@ let tileCollider = new TileCollider(levelTiles);
 let SOCKET_LIST = {};
 let PLAYER_LIST = {};
 let DEAD_PLAYER_LIST = {};
+let numPlayers = 0;
 
 let io = require('socket.io')(serv, {});
 io.sockets.on('connection', socket => {
 	console.log('socket connection');
 
+	numPlayers++;
 	socket.id = Math.random();
 	SOCKET_LIST[socket.id] = socket;
 
-	let player = new PlayerClass(socket.id, Object.keys(SOCKET_LIST).length);
+	let player = new PlayerClass(socket.id, numPlayers);
 	PLAYER_LIST[socket.id] = player;
 
 	socket.on('disconnect', () => {

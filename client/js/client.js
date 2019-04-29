@@ -88,6 +88,9 @@ Promise.all([
 			}
 
 			font.print('Player ' + playerNumber + ':', context, 4, 12);
+			font.print('W to JUMP', context, 424, 8);
+			font.print('A/D to move LEFT/RIGHT', context, 320, 18);
+			font.print('SPACE to SHOOT', context, 384, 28);
 			for (let h = 0; h < hp; h++) {
 				hearts.draw('Heart', context, h * 16 + 76, 8);
 			}

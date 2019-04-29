@@ -16,7 +16,7 @@ class PlayerClass {
 		this.num = playerNumber;
 
 		// Get random spawn location
-		let num = Math.floor(Math.random() * 100) % 4;
+		let num = this.number % 4;
 		if (num === 0) {
 			this.pos = new Vector(48, 180);
 			this.direction = 1;

@@ -3,14 +3,28 @@ import { loadFont } from './font.js';
 import { createBackgroundLayer } from './layers.js';
 import { correctFrame, correctDirection } from './animationhandler.js';
 import { handleKeyDown, handleKeyUp, handleRevive } from './keyhandlers.js';
+// import { sound } from './soundhandler.js';
 
 let socket = io();
 
+// Sound
+// let music = {
+// 	backgroundMusic: new Audio('/client/assets/backgroundmusic.mp3'),
+// 	gameOver : new Audio('/client/assets/gameover.mp3'),
+// 	jump : new Audio('/client/assets/jump.mp3'),
+// 	marioDie : new Audio('/client/assets/mariodie.mp3'),
+// 	fireball : new Audio('/client/assets/fireball.mp3')
+// }
+let backgroundMusic = new Audio('/client/assets/backgroundmusic.mp3');
+// let gameOver = new Audio('/client/assets/gameover.mp3');
+// let jump = new Audio('/client/assets/jump.mp3');
+// let marioDie = new Audio('/client/assets/mariodie.mp3');
+// let fireball = new Audio('/client/assets/fireball.mp3');
+
+// Canvas
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
-// context.webkitImageSmoothingEnabled = false;
-// context.mozImageSmoothingEnabled = false;
 context.imageSmoothingEnabled = false;
 
 let dead = false;
@@ -38,6 +52,10 @@ Promise.all([
 .then(([sprites, mario, abilities, explosion, hearts, font]) => {
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
+
+	// Start background music
+	backgroundMusic.loop = true;
+	backgroundMusic.play();
 
 	socket.on('newPosition', (data) => {
 		context.drawImage(backgroundBuffer, 0, 0);

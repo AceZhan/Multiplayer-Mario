@@ -77,9 +77,10 @@ Promise.all([
 
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
-	// Set up start Screen
+	// Set up Start Screen
 	context.drawImage(backgroundBuffer, 0, 0);
-
+	font.print('MARIO BATTLE', context, 144, 64, 2);
+	font.print('Press Space to Start', context, 160, 84, 1);
 	window.addEventListener('keydown', handleGameStart);
 	
 	// Setup background music

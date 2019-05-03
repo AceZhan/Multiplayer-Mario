@@ -9,13 +9,13 @@ let socket = io();
 // Load Sounds
 let backgroundMusic = new Howl({
   src: ['/client/assets/backgroundmusic.mp3'],
-  autoplay: true,
   loop: true,
-  volume: 0.5,
+  volume: 0.1,
 });
 
 let gameOverSound = new Howl({
-  src: ['/client/assets/gameover.mp3']
+  src: ['/client/assets/gameover.mp3'],
+  volume: 0.5
 });
 
 let jumpSound = new Howl({
@@ -25,12 +25,12 @@ let jumpSound = new Howl({
 
 let marioDieSound = new Howl({
   src: ['/client/assets/mariodie.mp3'],
-  volume: 0.5,
+  volume: 0.5
 });
 
 let fireBallSound = new Howl({
   src: ['/client/assets/fireball.mp3'],
-  volume: 0.5,
+  volume: 0.5
 });
 
 // Set-up keyboard handlers

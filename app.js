@@ -97,7 +97,6 @@ io.sockets.on('connection', socket => {
 	socket.on('revive', () => {
 		PLAYER_LIST[socket.id] = DEAD_PLAYER_LIST[socket.id]
 		delete DEAD_PLAYER_LIST[socket.id];
-		// player.state = true;
 		player.resetState();
 	});
 });
@@ -167,7 +166,8 @@ setInterval(() => {
 			fireballs: player.fireballs,
 			hp: player.hp,
 			state: player.state,
-			number: player.num
+			number: player.num,
+			alreadyJumped: player.alreadyJumped
 		});
 	}
 

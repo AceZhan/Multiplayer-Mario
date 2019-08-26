@@ -16,7 +16,6 @@ class PlayerCollider {
 				ball.playerID !== playerPos.id && !ball.collided) {
 				playerPos.player.hit();
 				ball.stop();
-				console.log(playerPos.player.hp);
 			}
 		}
 	}

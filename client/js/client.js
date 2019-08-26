@@ -18,12 +18,19 @@ let fireBallSound = new Howl({
 });
 
 // Set-up keyboard handlers
+
+// tracker to prevent repeat jump noise
+let soundState = {
+	jumped: false,
+	shot: false
+};
+
 let handleKeyDownWrapper = function() {
-	handleKeyDown(event, socket, jumpSound, fireBallSound);
+	handleKeyDown(event, socket, jumpSound, fireBallSound, soundState);
 };
 
 let handleKeyUpWrapper = function() {
-	handleKeyUp(event, socket);
+	handleKeyUp(event, socket, soundState);
 };
 
 let handleReviveWrapper = function() {
@@ -79,10 +86,18 @@ Promise.all([
 			let playerNumber;
 			let hp;
 
+			
+			
+
 			for (let i = 0; i < positions.length; ++i) {
 				if (playerID === positions[i].id) {
 					hp = positions[i].hp;
 					playerNumber = positions[i].number;
+
+					// update sound state
+					soundState.jumped = positions[i].alreadyJumped;
+
+					break;
 				}
 			}
 

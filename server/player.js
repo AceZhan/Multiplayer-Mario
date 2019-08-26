@@ -92,9 +92,6 @@ class PlayerClass {
 	shoot() {
 		(this.fireballs).push(new Fireball(this.id, this.pos, this.fireballCount, this.direction));
 		this.shotRecently = true;
-		// setTimeout(() => {
-		// 	this.shotRecently = false;
-		// }, 500)
 		this.fireballCount++; 
 	}
 

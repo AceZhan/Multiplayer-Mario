@@ -146,6 +146,11 @@ setInterval(() => {
 			playerCollider.checkCollision(ball);
 		});
 
+		// checking if player has fallen out of bounds
+		if (player.pos.x < -10 || player.pos.x > 510 || player.pos.y > 450) {
+			player.hp = 0;
+		}
+
 		player.filter();
 
 		(player.fireballs).forEach((ball) => {

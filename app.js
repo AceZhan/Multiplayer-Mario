@@ -70,9 +70,9 @@ io.sockets.on('connection', socket => {
 
 	socket.on('keyPress', data => {
 		if (player.state) {
-			if (data.inputID === 'jump' && (player.alreadyJumped == false)) {
-			player.jump();
-			} else if (data.inputID === 'shoot') {
+			if (data.inputID === 'jump' && player.alreadyJumped === false) {
+				player.jump();
+			} else if (data.inputID === 'shoot' && player.shotRecently === false) {
 		    	player.shoot();
 			}
 
@@ -88,7 +88,9 @@ io.sockets.on('connection', socket => {
 		if (player.state) {
 			if ((data.inputID === 'left') || (data.inputID === 'right'))  {
 				player.cancelHorizontal();
-			} 
+			} else if (data.inputID === 'shoot') {
+				player.shotRecently = false;
+			}
 		}
 	});
 

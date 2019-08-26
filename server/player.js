@@ -10,6 +10,7 @@ class PlayerClass {
 		this.vel = new Vector(0, 0);
 		this.distance = 0;
 		this.alreadyJumped = false;
+		this.shotRecently = false;
 		this.fireballCount = 0;
 		this.fireballs = [];
 		this.state = true;
@@ -38,6 +39,7 @@ class PlayerClass {
 		this.vel = new Vector(0, 0);
 		this.distance = 0;
 		this.alreadyJumped = false;
+		this.shotRecently = false;
 		this.fireballCount = 0;
 		this.fireballs = [];
 		this.state = true;
@@ -89,6 +91,10 @@ class PlayerClass {
 
 	shoot() {
 		(this.fireballs).push(new Fireball(this.id, this.pos, this.fireballCount, this.direction));
+		this.shotRecently = true;
+		// setTimeout(() => {
+		// 	this.shotRecently = false;
+		// }, 500)
 		this.fireballCount++; 
 	}
 

@@ -27,6 +27,8 @@ export function handleKeyUp(event, socket) {
 	//	socket.emit('keyRelease', {inputID:'down'});
 	else if (keyCode === 65)  { // pressing A key
 		socket.emit('keyRelease', {inputID:'left'});
+	} else if (keyCode === 32) {
+		socket.emit('keyRelease', {inputID:'shoot'});
 	}
 }
 

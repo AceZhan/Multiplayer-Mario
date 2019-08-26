@@ -39,7 +39,6 @@ let handleGameStart = function() {
 	}
 }
 
-
 // Canvas
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
@@ -58,7 +57,6 @@ Promise.all([
 	loadFont(),
 ])
 .then(([sprites, mario, abilities, explosion, hearts, font]) => {
-
 	let backgroundBuffer = createBackgroundLayer(sprites);
 
 	// Set up Start Screen

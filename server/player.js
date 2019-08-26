@@ -17,19 +17,21 @@ class PlayerClass {
 		this.num = playerNumber;
 
 		// Get random spawn location
-		let num = this.number % 4;
+		// let num = this.number % 4;
+		let num = 3;
+
 		if (num === 0) {
 			this.pos = new Vector(48, 180);
 			this.direction = 1;
 		} else if (num === 1) {
 			this.pos = new Vector(424, 180);
-			this.direction = 0;
+			this.direction = -1;
 		} else if (num === 2) {
 			this.pos = new Vector(160, 132);
 			this.direction = 1;
 		} else {
 			this.pos = new Vector(288, 132);
-			this.direction = 0;
+			this.direction = -1;
 		}
 		
 	}
@@ -45,19 +47,20 @@ class PlayerClass {
 		this.state = true;
 
 		// Get random spawn location
-		let num = Math.floor(Math.random() * 100) % 4;
+		// let num = Math.floor(Math.random() * 100) % 4;
+		let num = 3;
 		if (num === 0) {
 			this.pos = new Vector(48, 180);
 			this.direction = 1;
 		} else if (num === 1) {
 			this.pos = new Vector(424, 180);
-			this.direction = 0;
+			this.direction = -1;
 		} else if (num === 2) {
 			this.pos = new Vector(160, 132);
 			this.direction = 1;
 		} else {
 			this.pos = new Vector(288, 132);
-			this.direction = 0;
+			this.direction = -1;
 		}
 	}
 

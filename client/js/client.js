@@ -54,6 +54,7 @@ context.imageSmoothingEnabled = false;
 // Player and Game State
 let dead = false;
 let gameStart = false;
+let initialStart = true;
 
 Promise.all([
 	loadBackgroundSprites(),
@@ -75,9 +76,12 @@ Promise.all([
 	socket.on('newPosition', (data) => {
 
 		if (gameStart) {
-			// Add movement event listeners
-			window.addEventListener('keydown', handleKeyDownWrapper);
-			window.addEventListener('keyup', handleKeyUpWrapper);
+			if (initialStart) {
+				// Add movement event listeners
+				window.addEventListener('keydown', handleKeyDownWrapper);
+				window.addEventListener('keyup', handleKeyUpWrapper);
+				initialStart = false;
+			}
 
 			context.drawImage(backgroundBuffer, 0, 0);
 
@@ -86,9 +90,6 @@ Promise.all([
 			let playerNumber;
 			let hp;
 
-			
-			
-
 			for (let i = 0; i < positions.length; ++i) {
 				if (playerID === positions[i].id) {
 					hp = positions[i].hp;
@@ -96,7 +97,6 @@ Promise.all([
 
 					// update sound state
 					soundState.jumped = positions[i].alreadyJumped;
-
 					break;
 				}
 			}
@@ -129,9 +129,12 @@ Promise.all([
 			} else {
 				if (dead) {
 					window.removeEventListener('keydown', handleReviveWrapper);
-					window.addEventListener('keydown', handleKeyDownWrapper);
-					window.addEventListener('keyup', handleKeyUpWrapper);
 
+					setTimeout(() => {
+						window.addEventListener('keydown', handleKeyDownWrapper);
+						window.addEventListener('keyup', handleKeyUpWrapper);
+					}, 100);
+					
 					dead = false;
 				}
 

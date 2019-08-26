@@ -7,24 +7,8 @@ import {handleKeyDown, handleKeyUp, handleRevive} from './keyhandlers.js';
 let socket = io();
 
 // Load Sounds
-let backgroundMusic = new Howl({
-  src: ['/client/assets/backgroundmusic.mp3'],
-  loop: true,
-  volume: 0.1,
-});
-
-let gameOverSound = new Howl({
-  src: ['/client/assets/gameover.mp3'],
-  volume: 0.5
-});
-
 let jumpSound = new Howl({
   src: ['/client/assets/jump.mp3'],
-  volume: 0.5
-});
-
-let marioDieSound = new Howl({
-  src: ['/client/assets/mariodie.mp3'],
   volume: 0.5
 });
 
@@ -82,9 +66,6 @@ Promise.all([
 	font.print('MARIO BATTLE', context, 144, 64, 2);
 	font.print('Press Space to Start', context, 160, 84, 1);
 	window.addEventListener('keydown', handleGameStart);
-	
-	// Setup background music
-	backgroundMusic.play();
 
 	socket.on('newPosition', (data) => {
 
@@ -123,11 +104,6 @@ Promise.all([
 			}
 
 			if (hp === undefined) {
-				backgroundMusic.stop();
-				marioDieSound.play();
-				marioDieSound.on('end', () => {
-					gameOverSound.play();
-				});
 
 				font.print('GAME OVER', context, 164, 64, 2);
 				font.print('Press Space to Play Again', context, 134, 84, 1);

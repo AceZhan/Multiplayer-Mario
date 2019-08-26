@@ -133,7 +133,7 @@ Promise.all([
 					setTimeout(() => {
 						window.addEventListener('keydown', handleKeyDownWrapper);
 						window.addEventListener('keyup', handleKeyUpWrapper);
-					}, 100);
+					}, 50);
 					
 					dead = false;
 				}

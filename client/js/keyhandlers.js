@@ -1,4 +1,4 @@
-export function handleKeyDown(event, socket, jumpSound, fireBallSound, state) {
+export function handleKeyDown(event, socket, state) {
 	const { keyCode } = event;
 	if (keyCode === 68) { // pressing D key
 		socket.emit('keyPress', {inputID:'right'});
@@ -11,14 +11,12 @@ export function handleKeyDown(event, socket, jumpSound, fireBallSound, state) {
 	else if (keyCode === 87) { // pressing jump
 		if (state.jumped === false) {
 			// state.jumped = true;
-			jumpSound.play();
 		}
 		socket.emit('keyPress', {inputID:'jump'});
 	}
 	else if (keyCode === 32) { // shooting fireball
 		if (state.shot === false) {
 			state.shot = true;
-			fireBallSound.play();
 		}
 		socket.emit('keyPress', {inputID:'shoot'});
 	}

@@ -6,19 +6,7 @@ import {handleKeyDown, handleKeyUp, handleRevive} from './keyhandlers.js';
 
 let socket = io();
 
-// Load Sounds
-let jumpSound = new Howl({
-  src: ['/client/assets/jump.mp3'],
-  volume: 0.5
-});
-
-let fireBallSound = new Howl({
-  src: ['/client/assets/fireball.mp3'],
-  volume: 0.5
-});
-
 // Set-up keyboard handlers
-
 // tracker to prevent repeat jump noise
 let soundState = {
 	jumped: false,
@@ -26,7 +14,7 @@ let soundState = {
 };
 
 let handleKeyDownWrapper = function() {
-	handleKeyDown(event, socket, jumpSound, fireBallSound, soundState);
+	handleKeyDown(event, socket, soundState);
 };
 
 let handleKeyUpWrapper = function() {

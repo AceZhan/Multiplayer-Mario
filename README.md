@@ -1,7 +1,12 @@
 # Multiplayer-Mario
+====================
 
-A multiplayer free-for-all mario battle built in Javascript with Node.js, socket.io, and Express.
+Free-for-all Mario Battle done in Javascript with Node.js, socket.io, and Express.
 
-https://multiplayermario.herokuapp.com/
+See it in action: https://multiplayermario.herokuapp.com/
 
-![mario](https://user-images.githubusercontent.com/33003808/46267307-2a97d480-c502-11e8-95b1-3c9c3614afac.JPG)
+====================
+
+![startscreen](https://user-images.githubusercontent.com/33003808/63735426-c71b4180-c84d-11e9-8f41-812fdf4d92d1.png)
+
+![gameplay](https://user-images.githubusercontent.com/33003808/63735395-abb03680-c84d-11e9-83a7-fb488ca688f0.png)
